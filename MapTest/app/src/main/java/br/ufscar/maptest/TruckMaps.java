@@ -1,7 +1,14 @@
 package br.ufscar.maptest;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.os.Build;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.location.LocationManager;
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -12,6 +19,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import br.ufscar.auxiliares.DialogAux;
+import br.ufscar.auxiliares.FoodTruckInfoWindowAdapter;
+import br.ufscar.listeners.MyLocationListener;
 
 public class TruckMaps extends FragmentActivity implements OnMapReadyCallback {
 
@@ -26,6 +37,18 @@ public class TruckMaps extends FragmentActivity implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        mMap = mapFragment.getMap();
+
+        mMap.setMyLocationEnabled(true);
+
+        atualizaPosicao(this,mMap);
+
+
+        //mMap.setInfoWindowAdapter(new FoodTruckInfoWindowAdapter(this));
+
+        mMap.setOnMarkerClickListener(new DialogAux(this));
+
 
     }
 
@@ -56,11 +79,43 @@ public class TruckMaps extends FragmentActivity implements OnMapReadyCallback {
         for(Truck truck : truckList)
         {
             mMap.addMarker(new MarkerOptions().position(truck.getLocalization()).title(truck.getName()));
+
         }
-        mMap.addMarker(new MarkerOptions().position(mainTruck.getLocalization()).title(mainTruck.getName()));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(mainTruck.getLocalization()));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mainTruck.getLocalization(), 15));
+
+        //mMap.addMarker(new MarkerOptions().position(mainTruck.getLocalization()).title(mainTruck.getName()));
+
+        LatLng newLastLocation = atualizaPosicao(this,mMap);
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(newLastLocation));
+
         mMap.animateCamera(CameraUpdateFactory.zoomIn());
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+
     }
+
+    //Funcao que pega localização atual do usuário
+    public LatLng atualizaPosicao(Context ctx, GoogleMap mMap){
+
+        //Necessário para pegar a localização atual
+        if ( Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION )
+                        != PackageManager.PERMISSION_GRANTED  &&
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION )
+                        != PackageManager.PERMISSION_GRANTED
+                )
+        {
+
+            return null;
+        }
+
+        LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new MyLocationListener(mMap, this));
+
+        Location lastLocation = mlocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        LatLng newLastLocation = new LatLng(lastLocation.getLatitude(),lastLocation.getLongitude());
+
+        return newLastLocation;
+
+    }
+
 }
