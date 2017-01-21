@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+    <string name="app_name">FoodTruck Guide</string>
+    <string name="email_field">email: </string>
+    <string name="password_field">password: </string>
+    <string name="button_send">Ok </string>
+    <string name="title_activity_food_truck_maps">Map</string>
+    <string name="google_maps_key">AIzaSyBEKP3gLkdIUk8NBJ6Ha-CRKZt3eaSEfzs</string>
+    <string name="title_activity_truck_maps">TruckMaps</string>
+    <string name="btn_ok_info">OK</string>
+    <string name="txt_cardapio">Cardapio</string>
+</resources>
