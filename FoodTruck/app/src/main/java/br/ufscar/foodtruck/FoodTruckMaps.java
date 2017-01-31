@@ -1,10 +1,12 @@
 package br.ufscar.foodtruck;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.location.LocationManager;
@@ -12,6 +14,7 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -30,7 +33,6 @@ import br.ufscar.auxiliares.FoodTruckInfoWindowAdapter;
 import br.ufscar.listeners.MyLocationListener;
 
 
-
 public class FoodTruckMaps extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -45,17 +47,6 @@ public class FoodTruckMaps extends FragmentActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        mMap = mapFragment.getMap();
-
-        mMap.setMyLocationEnabled(true);
-
-        atualizaPosicao(this,mMap);
-
-
-        //mMap.setInfoWindowAdapter(new FoodTruckInfoWindowAdapter(this));
-
-        mMap.setOnMarkerClickListener(new DialogAux(this));
 
 
     }
@@ -82,25 +73,44 @@ public class FoodTruckMaps extends FragmentActivity implements OnMapReadyCallbac
 
         truckList.add(new Truck("Rancho Marginal", new LatLng(-22.002654, -47.892167)));
 
-        truckList.add(new Truck("Tomodaty",new LatLng(-22.000555, -47.893916)));
+        truckList.add(new Truck("Tomodaty", new LatLng(-22.000555, -47.893916)));
 
-        for(Truck truck : truckList)
-        {
+        for (Truck truck : truckList) {
             mMap.addMarker(new MarkerOptions().position(truck.getLocalization()).title(truck.getName()));
 
         }
 
         //mMap.addMarker(new MarkerOptions().position(mainTruck.getLocalization()).title(mainTruck.getName()));
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
+
         LatLng newLastLocation = atualizaPosicao(this,mMap);
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(newLastLocation));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(newLastLocation));
 
-        mMap.animateCamera(CameraUpdateFactory.zoomIn());
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newLastLocation, 15));
+
+        //mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+        //mMap.animateCamera(CameraUpdateFactory.zoomIn());
+        //mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+
+        mMap.setOnMarkerClickListener(new DialogAux(this));
+
+
 
     }
 
+    @SuppressLint("NewApi")  // We check which build version we are using.
     //Funcao que pega localização atual do usuário
     public LatLng atualizaPosicao(Context ctx, GoogleMap mMap){
 
@@ -112,7 +122,7 @@ public class FoodTruckMaps extends FragmentActivity implements OnMapReadyCallbac
                         != PackageManager.PERMISSION_GRANTED
                 )
         {
-
+            Log.e("ERRO","RETORNANDO NULL");
             return null;
         }
 
@@ -120,13 +130,14 @@ public class FoodTruckMaps extends FragmentActivity implements OnMapReadyCallbac
         mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new MyLocationListener(mMap, this));
 
         Location lastLocation = mlocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        LatLng newLastLocation = new LatLng(lastLocation.getLatitude(),lastLocation.getLongitude());
+        //LatLng newLastLocation = new LatLng(lastLocation.getLatitude(),lastLocation.getLongitude());
+        LatLng newLastLocation = new LatLng(-22.008474,-47.891448);
 
-        for(Truck truck : truckList)
-        {
-            mMap.addMarker(new MarkerOptions().position(truck.getLocalization()).title(truck.getName()));
-
-        }
+//        for(Truck truck : truckList)
+//        {
+//            mMap.addMarker(new MarkerOptions().position(truck.getLocalization()).title(truck.getName()));
+//
+//        }
 
         return newLastLocation;
 

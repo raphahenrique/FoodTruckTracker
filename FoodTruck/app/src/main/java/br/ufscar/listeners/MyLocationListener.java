@@ -36,13 +36,14 @@ public class MyLocationListener implements LocationListener
         else
             STARTED = true;
 
-        map.clear();
+        //map.clear();
+
         localAtual = new LatLng(loc.getLatitude(),loc.getLongitude());
 
         //List<DataTemplate> region =  Util.getEntriesInRadius(ctx, Util.getEntries(), localAtual, Util.RADIUS);
         //map.addMarker(new MarkerOptions().position(localAtual).title("Posição Atual").snippet("Crimes na região: " + region.size()));
         LatLngBounds bounds = new LatLngBounds.Builder().include(localAtual).build();
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(bounds.getCenter(), 14));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(bounds.getCenter(), 15));
 
         map.addCircle(new CircleOptions().center(localAtual).radius(200).strokeWidth(20).strokeColor(Color.BLUE));
 
