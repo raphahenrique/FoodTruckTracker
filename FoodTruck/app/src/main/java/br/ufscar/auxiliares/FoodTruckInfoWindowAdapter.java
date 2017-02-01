@@ -29,8 +29,8 @@ public class FoodTruckInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         TextView txtFoodTruckName = (TextView)myView.findViewById(R.id.txt_nome_food_truck);
         ImageView imgFoodTruck = (ImageView)myView.findViewById(R.id.img_foodTruck);
         RatingBar barAvaliacao = (RatingBar) myView.findViewById(R.id.bar_avaliacao);
-        ImageButton btnPositivo = (ImageButton) myView.findViewById(R.id.btn_positivo);
-        ImageButton btnNegativo = (ImageButton) myView.findViewById(R.id.btn_negativo);
+        //ImageButton btnPositivo = (ImageButton) myView.findViewById(R.id.btn_positivo);
+        //ImageButton btnNegativo = (ImageButton) myView.findViewById(R.id.btn_negativo);
 
         TextView txtCardapio = (TextView)myView.findViewById(R.id.txt_cardapio_info);
 

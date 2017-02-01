@@ -71,7 +71,7 @@ public class FoodTruckMaps extends FragmentActivity implements OnMapReadyCallbac
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        
+
         mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mSideBarMenu));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
