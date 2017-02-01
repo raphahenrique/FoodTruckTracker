@@ -76,7 +76,7 @@ public class FoodTruckMaps extends FragmentActivity implements OnMapReadyCallbac
         truckList.add(new Truck("Tomodaty", new LatLng(-22.000555, -47.893916)));
 
         for (Truck truck : truckList) {
-            mMap.addMarker(new MarkerOptions().position(truck.getLocalization()).title(truck.getName()));
+            mMap.addMarker(new MarkerOptions().position(truck.getCurrentLocation()).title(truck.getName()));
 
         }
 
