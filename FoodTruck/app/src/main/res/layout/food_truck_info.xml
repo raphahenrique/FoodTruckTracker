@@ -70,5 +70,4 @@
         android:layout_alignLeft="@+id/bar_avaliacao"
         android:layout_alignStart="@+id/bar_avaliacao" />
 
-
 </RelativeLayout>

@@ -1,8 +1,9 @@
 package br.ufscar.foodtruck;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.Manifest;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -12,14 +13,22 @@ import android.os.Bundle;
 import android.location.LocationManager;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.ArrayAdapter;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -27,20 +36,30 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import br.ufscar.auxiliares.DialogAux;
-import br.ufscar.auxiliares.FoodTruckInfoWindowAdapter;
 import br.ufscar.listeners.MyLocationListener;
 
 
 public class FoodTruckMaps extends FragmentActivity implements OnMapReadyCallback {
 
+    MapView mMapView;
     private GoogleMap mMap;
+
+    private String[] mSideBarMenu;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private CharSequence mDrawerTitle;
+    private CharSequence mTitle;
+    private String[] mSideBarTitles;
+
     public List<Truck> truckList = new ArrayList<Truck>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);//Prepara o menu da sidebar com onPrepareOptionsMenu();ns
         setContentView(R.layout.activity_food_truck_maps);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -48,9 +67,31 @@ public class FoodTruckMaps extends FragmentActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        mSideBarMenu = getResources().getStringArray(R.array.sidebar_array);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mSideBarMenu));
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_closed) {
+            //FUNÇÃO DA SIDEBAR FECHADA
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                //invalidateOptionsMenu(); //Prepara o menu da sidebar com onPrepareOptionsMenu();
+            }
+            //FUNÇÃO DA SIDEBAR ABERTA
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                //invalidateOptionsMenu(); //Prepara o menu da sidebar com onPrepareOptionsMenu();
+            }
+        };
+        //Set drawer toggle
+
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
     }
-
 
     /**
      * Manipulates the map once available.
@@ -106,8 +147,6 @@ public class FoodTruckMaps extends FragmentActivity implements OnMapReadyCallbac
 
         mMap.setOnMarkerClickListener(new DialogAux(this));
 
-
-
     }
 
     @SuppressLint("NewApi")  // We check which build version we are using.
@@ -143,4 +182,54 @@ public class FoodTruckMaps extends FragmentActivity implements OnMapReadyCallbac
 
     }
 
+    // DRAWER FUNCTIONS DOWN BELOW
+    // LISTENER DO DRAWER
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+        {
+            selectItem(position);
+        }
+
+    }
+
+    // FUNÇÃO DE SELECIONAR O ITEM NO SIDEBAR
+    private void selectItem(int position)
+    {
+        if(mDrawerList.isItemChecked(position))
+            mDrawerList.setSelection(position);
+        else
+            mDrawerList.setSelection(position);
+        //mDrawerLayout.closeDrawer(mDrawerList);
+    }
+
+    //Chamado por "invalidateOptionsMenu
+    public boolean onPrepareOptions(Menu menu) {
+        //se o drawer tiver aberto esconder itens relacionados a view de content
+        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+        menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    public static class SideBarFragment extends Fragment {
+        public static final String ARG_SIDEBAR_NUMBER = "sidebar_number";
+
+        public SideBarFragment() {
+            // Empty constructor required for fragment subclasses
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_sidebar, container, false);
+            int i = getArguments().getInt(ARG_SIDEBAR_NUMBER);
+            String planet = getResources().getStringArray(R.array.sidebar_array)[i];
+
+            int imageId = getResources().getIdentifier(planet.toLowerCase(Locale.getDefault()),
+                    "drawable", getActivity().getPackageName());
+            ((ImageView) rootView.findViewById(R.id.image)).setImageResource(imageId);
+            getActivity().setTitle("banana");
+            return rootView;
+        }
+    }
 }
