@@ -1,22 +1,17 @@
 package br.ufscar.foodtruck;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
-import android.location.LocationManager;
-import android.content.Context;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -29,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.ufscar.auxiliares.DialogAux;
-import br.ufscar.auxiliares.FoodTruckInfoWindowAdapter;
 import br.ufscar.listeners.MyLocationListener;
 
 
@@ -130,8 +124,8 @@ public class FoodTruckMaps extends FragmentActivity implements OnMapReadyCallbac
         mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new MyLocationListener(mMap, this));
 
         Location lastLocation = mlocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        //LatLng newLastLocation = new LatLng(lastLocation.getLatitude(),lastLocation.getLongitude());
-        LatLng newLastLocation = new LatLng(-22.008474,-47.891448);
+        LatLng newLastLocation = new LatLng(lastLocation.getLatitude(),lastLocation.getLongitude());
+        //LatLng newLastLocation = new LatLng(-22.008474,-47.891448);
 
 //        for(Truck truck : truckList)
 //        {

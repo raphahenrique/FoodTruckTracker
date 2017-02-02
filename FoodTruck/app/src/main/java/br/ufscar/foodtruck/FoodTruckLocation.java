@@ -13,7 +13,7 @@ public class FoodTruckLocation {
     private EasyTime opensAt;
     private EasyTime closesAt;
 
-    public FoodTruckLocation(LatLng location, String startDate, String endDate, String )
+    public FoodTruckLocation(LatLng location, String startDate, String endDate, String opensAt, String closesAt){}
 
     void updateEndDate() {
     }
