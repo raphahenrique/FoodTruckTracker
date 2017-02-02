@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.ufscar.auxiliares.DialogAux;
-import br.ufscar.listeners.MyLocationListener;
 
 
 public class FoodTruckMaps extends FragmentActivity implements OnMapReadyCallback {
@@ -90,11 +89,11 @@ public class FoodTruckMaps extends FragmentActivity implements OnMapReadyCallbac
 
         LatLng newLastLocation = atualizaPosicao(this,mMap);
 
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(newLastLocation));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(newLastLocation));
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newLastLocation, 15));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newLastLocation, 15));
 
-        //mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
         //mMap.animateCamera(CameraUpdateFactory.zoomIn());
         //mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
 
@@ -108,6 +107,35 @@ public class FoodTruckMaps extends FragmentActivity implements OnMapReadyCallbac
     //Funcao que pega localização atual do usuário
     public LatLng atualizaPosicao(Context ctx, GoogleMap mMap){
 
+
+
+/*
+        LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new MyLocationListener(mMap, this));
+
+        Location lastLocation = mlocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        LatLng newLastLocation = new LatLng(lastLocation.getLatitude(),lastLocation.getLongitude());
+        //LatLng newLastLocation = new LatLng(-22.008474,-47.891448);
+
+*/
+
+
+        LocationManager mLocationManager  = (LocationManager)getSystemService(Context.LOCATION_SERVICE);;
+        Location myLocation = getLastKnownLocation(mLocationManager);
+
+
+        LatLng newLastLocation = new LatLng(myLocation.getLatitude(),myLocation.getLongitude());
+
+        return newLastLocation;
+
+    }
+
+
+    private Location getLastKnownLocation(LocationManager mLocationManager) {
+        mLocationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
+        List<String> providers = mLocationManager.getProviders(true);
+        Location bestLocation = null;
+
         //Necessário para pegar a localização atual
         if ( Build.VERSION.SDK_INT >= 23 &&
                 ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION )
@@ -119,22 +147,18 @@ public class FoodTruckMaps extends FragmentActivity implements OnMapReadyCallbac
             Log.e("ERRO","RETORNANDO NULL");
             return null;
         }
-
-        LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new MyLocationListener(mMap, this));
-
-        Location lastLocation = mlocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        LatLng newLastLocation = new LatLng(lastLocation.getLatitude(),lastLocation.getLongitude());
-        //LatLng newLastLocation = new LatLng(-22.008474,-47.891448);
-
-//        for(Truck truck : truckList)
-//        {
-//            mMap.addMarker(new MarkerOptions().position(truck.getLocalization()).title(truck.getName()));
-//
-//        }
-
-        return newLastLocation;
-
+        for (String provider : providers) {
+            Location l = mLocationManager.getLastKnownLocation(provider);
+            if (l == null) {
+                continue;
+            }
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                // Found best last known location: %s", l);
+                bestLocation = l;
+            }
+        }
+        return bestLocation;
     }
+
 
 }
