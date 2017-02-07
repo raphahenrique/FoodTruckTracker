@@ -3,17 +3,19 @@ package br.ufscar.foodtruck;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -31,16 +33,29 @@ public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallba
 
     private GoogleMap mMap;
     public List<Truck> truckList = new ArrayList<Truck>();
+    private CallbackManager callbackManager;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+
         setContentView(R.layout.activity_food_truck_maps);
+
+        callbackManager = CallbackManager.Factory.create();
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
 
 
     }
@@ -98,7 +113,7 @@ public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallba
         //mMap.animateCamera(CameraUpdateFactory.zoomIn());
         //mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
 
-        mMap.setOnMarkerClickListener(new DialogAux(this));
+        mMap.setOnMarkerClickListener(new DialogAux(this, callbackManager));
 
 
 
