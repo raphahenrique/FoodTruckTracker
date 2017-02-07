@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -26,7 +27,7 @@ import java.util.List;
 import br.ufscar.auxiliares.DialogAux;
 
 
-public class FoodTruckMaps extends FragmentActivity implements OnMapReadyCallback {
+public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     public List<Truck> truckList = new ArrayList<Truck>();
