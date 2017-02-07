@@ -16,9 +16,9 @@ public class EasyTime {
 
     public EasyTime(String date) {
         // String should be in format HH:MM:SS, with HH in 24-hour format
-        hour = Integer.getInteger(date.substring(0, 2));
-        minute = Integer.getInteger(date.substring(3,5));
-        second = Integer.getInteger(date.substring(6,8));
+        hour = Integer.parseInt(date.substring(0, 2));
+        minute = Integer.parseInt(date.substring(3,5));
+        second = Integer.parseInt(date.substring(6,8));
     }
 
     public static boolean nowInRange(EasyTime from, EasyTime to) {

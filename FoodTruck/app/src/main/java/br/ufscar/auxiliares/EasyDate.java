@@ -16,9 +16,9 @@ public class EasyDate {
 
     public EasyDate(String date) {
         // String should be in format yyyy-mm-dd
-        year = Integer.getInteger(date.substring(0, 4));
-        month = Integer.getInteger(date.substring(5,7));
-        day = Integer.getInteger(date.substring(8,10));
+        year = Integer.parseInt(date.substring(0, 4));
+        month = Integer.parseInt(date.substring(5,7));
+        day = Integer.parseInt(date.substring(8,10));
     }
 
     public static boolean nowInRange(EasyDate from, EasyDate to) {
@@ -33,6 +33,11 @@ public class EasyDate {
                     return true;
 
         return false;
+    }
+
+    // TODO correct this
+    public void increaseDate(int step) {
+        day += step;
     }
 
     // Outputs string to format yyyy-mm-dd
