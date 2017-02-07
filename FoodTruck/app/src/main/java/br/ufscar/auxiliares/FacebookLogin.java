@@ -33,6 +33,26 @@ public class FacebookLogin implements FacebookCallback<LoginResult>{
                             //String picture = object.getString("picture");
                             System.out.println(id + ", " + name + ", " + email  );
 
+                            /* Ver ONDE ele salva info sobre user entre seções e como recuperar
+
+
+
+
+                            Usar sharedPreferences para salvar e saber que ele ja logou**
+                            // Save your info
+                            SharedPreferences settings = getSharedPreferences("my_file_name", 0);
+                            SharedPreferences.Editor editor = settings.edit();
+                            editor.putString("username", username.getText().toString());
+                            editor.putString("password", password.getText().toString());
+                            editor.commit();
+
+                            // Obtain your info
+                            SharedPreferences settings = getSharedPreferences("my_file_name", 0);
+                            String username = settings.getString("username", "");
+                            String password = settings.getString("password", "");
+                             */
+
+
                             Log.i("ID: ", id);
                             Log.i("name: ", name);
                             Log.i("email: ", email);
