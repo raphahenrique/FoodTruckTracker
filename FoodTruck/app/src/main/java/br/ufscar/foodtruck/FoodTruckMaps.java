@@ -22,6 +22,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import br.ufscar.auxiliares.DialogAux;
@@ -59,15 +60,15 @@ public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallba
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        Truck mainTruck = new Truck("Epamiondas", new LatLng(-22.008166, -47.891448));
+        Truck mainTruck = new Truck("Epamiondas", new LatLng(-22.008166, -47.891448), 1, new LinkedList<FoodTruckTag>());
 
-        truckList.add(new Truck("Quase 2", new LatLng(-22.008474, -47.890708)));
+        truckList.add(new Truck("Quase 2", new LatLng(-22.008474, -47.890708), 1, new LinkedList<FoodTruckTag>()));
 
-        truckList.add(new Truck("Trem Bão", new LatLng(-22.005748, -47.896759)));
+        truckList.add(new Truck("Trem Bão", new LatLng(-22.005748, -47.896759), 2, new LinkedList<FoodTruckTag>()));
 
-        truckList.add(new Truck("Rancho Marginal", new LatLng(-22.002654, -47.892167)));
+        truckList.add(new Truck("Rancho Marginal", new LatLng(-22.002654, -47.892167), 1, new LinkedList<FoodTruckTag>()));
 
-        truckList.add(new Truck("Tomodaty", new LatLng(-22.000555, -47.893916)));
+        truckList.add(new Truck("Tomodaty", new LatLng(-22.000555, -47.893916), 3, new LinkedList<FoodTruckTag>()));
 
         for (Truck truck : truckList) {
             mMap.addMarker(new MarkerOptions().position(truck.getCurrentLocation()).title(truck.getName()));

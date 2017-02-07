@@ -15,6 +15,15 @@ public class FoodTruckLocation {
 
     public FoodTruckLocation(LatLng location, String startDate, String endDate, String opensAt, String closesAt){}
 
+    public FoodTruckLocation(LatLng location) {
+        this.location = location;
+        startDate = new EasyDate();
+        endDate = new EasyDate();
+        endDate.increaseDate(7);
+        opensAt = new EasyTime("00:00:00");
+        closesAt = new EasyTime("23:59:59");
+    }
+
     void updateEndDate() {
     }
 
