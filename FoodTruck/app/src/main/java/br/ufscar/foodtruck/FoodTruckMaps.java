@@ -119,15 +119,16 @@ public class FoodTruckMaps extends FragmentActivity implements OnMapReadyCallbac
 
 */
 
+        try {
+            LocationManager mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            Location myLocation = getLastKnownLocation(mLocationManager);
 
-        LocationManager mLocationManager  = (LocationManager)getSystemService(Context.LOCATION_SERVICE);;
-        Location myLocation = getLastKnownLocation(mLocationManager);
+            LatLng newLastLocation = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
 
-
-        LatLng newLastLocation = new LatLng(myLocation.getLatitude(),myLocation.getLongitude());
-
-        if (newLastLocation != null) return newLastLocation;
-        else return new LatLng(-22.013429, -47.899514);
+            return newLastLocation;
+        } catch (NullPointerException e) {
+            return new LatLng(-22.013429, -47.899514);
+        }
 
     }
 
