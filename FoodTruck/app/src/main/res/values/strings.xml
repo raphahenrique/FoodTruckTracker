@@ -9,4 +9,13 @@
     <string name="title_activity_truck_maps">TruckMaps</string>
     <string name="btn_ok_info">OK</string>
     <string name="txt_cardapio">Cardapio</string>
+    <string-array name="tags_array">
+        <item>Mexicano</item>
+        <item>Portugues</item>
+        <item>Brownie</item>
+        <item>Pizza</item>
+    </string-array>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="action_websearch">Web search</string>
 </resources>
