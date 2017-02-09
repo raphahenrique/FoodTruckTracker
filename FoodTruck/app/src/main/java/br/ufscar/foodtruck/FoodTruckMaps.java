@@ -14,8 +14,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
+import com.facebook.Profile;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -34,6 +37,10 @@ public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallba
     private GoogleMap mMap;
     public List<Truck> truckList = new ArrayList<Truck>();
     private CallbackManager callbackManager;
+    private AccessTokenTracker accessTokenTracker;
+    private AccessToken accessToken;
+
+    private Profile currentProfile;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -56,8 +63,42 @@ public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallba
         mapFragment.getMapAsync(this);
 
 
+        if(isLoggedIn(accessToken)){
+
+            accessTokenTracker = new AccessTokenTracker() {
+                @Override
+                protected void onCurrentAccessTokenChanged(
+                        AccessToken oldAccessToken,
+                        AccessToken currentAccessToken) {
+
+                    // Set the access token using
+                    // currentAccessToken when it's loaded or set.
+                }
+            };
+            // If the access token is available already assign it.
+            accessToken = AccessToken.getCurrentAccessToken();
+
+            currentProfile = Profile.getCurrentProfile();
+            if (currentProfile != null) {
+                Log.e("LOGADO", "Usuario logado=" + currentProfile.getFirstName() + " " + currentProfile.getLastName());
+            }
+        }
 
 
+    }
+
+
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        accessTokenTracker.stopTracking();
+    }
+
+    public boolean isLoggedIn(AccessToken accessToken) {
+        accessToken = AccessToken.getCurrentAccessToken();
+        return accessToken != null;
     }
 
 
@@ -75,13 +116,9 @@ public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallba
         mMap = googleMap;
 
         Truck mainTruck = new Truck("Epamiondas", new LatLng(-22.008166, -47.891448));
-
         truckList.add(new Truck("Quase 2", new LatLng(-22.008474, -47.890708)));
-
         truckList.add(new Truck("Trem Bão", new LatLng(-22.005748, -47.896759)));
-
         truckList.add(new Truck("Rancho Marginal", new LatLng(-22.002654, -47.892167)));
-
         truckList.add(new Truck("Tomodaty", new LatLng(-22.000555, -47.893916)));
 
         for (Truck truck : truckList) {

@@ -1,7 +1,10 @@
 package br.ufscar.auxiliares;
 
-import android.os.Bundle;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -11,6 +14,8 @@ import com.facebook.login.LoginResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.InputStream;
 
 public class FacebookLogin implements FacebookCallback<LoginResult>{
     @Override
@@ -24,33 +29,16 @@ public class FacebookLogin implements FacebookCallback<LoginResult>{
                     public void onCompleted(JSONObject object, GraphResponse response)
                     {
                         Log.v("LoginActivity", response.toString());
-                        //System.out.println("Check: " + response.toString());
+
                         try
                         {
                             String id = object.getString("id");
                             String name = object.getString("name");
                             String email = object.getString("email");
                             //String picture = object.getString("picture");
-                            System.out.println(id + ", " + name + ", " + email  );
+                            //profile.getProfilePictureUri(200,200).toString()
 
-                            /* Ver ONDE ele salva info sobre user entre seções e como recuperar
-
-
-
-
-                            Usar sharedPreferences para salvar e saber que ele ja logou**
-                            // Save your info
-                            SharedPreferences settings = getSharedPreferences("my_file_name", 0);
-                            SharedPreferences.Editor editor = settings.edit();
-                            editor.putString("username", username.getText().toString());
-                            editor.putString("password", password.getText().toString());
-                            editor.commit();
-
-                            // Obtain your info
-                            SharedPreferences settings = getSharedPreferences("my_file_name", 0);
-                            String username = settings.getString("username", "");
-                            String password = settings.getString("password", "");
-                             */
+                            //new DownloadImage((ImageView)findViewById(R.id.profileImage)).execute(imageUrl);
 
 
                             Log.i("ID: ", id);
@@ -64,10 +52,11 @@ public class FacebookLogin implements FacebookCallback<LoginResult>{
 
                     }
                 });
-        Bundle parameters = new Bundle();
+        /*Bundle parameters = new Bundle();
         parameters.putString("fields", "id,name,email,gender, birthday");
         request.setParameters(parameters);
         request.executeAsync();
+        */
     }
 
     @Override
@@ -81,3 +70,29 @@ public class FacebookLogin implements FacebookCallback<LoginResult>{
         Log.v("LoginActivity", error.getCause().toString());
     }
 }
+
+class DownloadImage extends AsyncTask<String, Void, Bitmap> {
+    ImageView bmImage;
+
+    public DownloadImage(ImageView bmImage) {
+        this.bmImage = bmImage;
+    }
+
+    protected Bitmap doInBackground(String... urls) {
+        String urldisplay = urls[0];
+        Bitmap mIcon11 = null;
+        try {
+            InputStream in = new java.net.URL(urldisplay).openStream();
+            mIcon11 = BitmapFactory.decodeStream(in);
+        } catch (Exception e) {
+            Log.e("Error", e.getMessage());
+            e.printStackTrace();
+        }
+        return mIcon11;
+    }
+
+    protected void onPostExecute(Bitmap result) {
+        bmImage.setImageBitmap(result);
+    }
+}
+
