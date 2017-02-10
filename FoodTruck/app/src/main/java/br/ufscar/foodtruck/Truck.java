@@ -27,6 +27,14 @@ public class Truck {
         this.priceRange = priceRange;
     }
 
+    //Adicionado novo construtor de truck
+    Truck(String name, LatLng location){
+        this.name = name;
+        this.locations = new LinkedList<>();
+        locations.add(new FoodTruckLocation(location));
+        //this.priceRange = priceRange;
+    }
+
     public LatLng getCurrentLocation() {
         for (FoodTruckLocation l : locations) {
             if (EasyDate.nowInRange(l.getStartDate(), l.getEndDate()) && EasyTime.nowInRange(l.getOpensAt(), l.getClosesAt()))

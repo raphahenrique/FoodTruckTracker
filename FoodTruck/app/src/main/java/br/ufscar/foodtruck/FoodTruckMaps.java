@@ -36,7 +36,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import br.ufscar.auxiliares.DialogAux;
@@ -160,6 +159,7 @@ public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallba
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        //Adicionado novo construtor de truck
         Truck mainTruck = new Truck("Epamiondas", new LatLng(-22.008166, -47.891448));
         truckList.add(new Truck("Quase 2", new LatLng(-22.008474, -47.890708)));
         truckList.add(new Truck("Trem Bão", new LatLng(-22.005748, -47.896759)));
