@@ -43,14 +43,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="37dp" />
 
-    <Button
-        android:text="Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_ok_info"
-        android:layout_below="@+id/txt_cardapio_info"
-        android:layout_centerHorizontal="true" />
-
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -69,6 +61,25 @@
         android:layout_below="@+id/btn_positivo"
         android:layout_alignLeft="@+id/bar_avaliacao"
         android:layout_alignStart="@+id/bar_avaliacao" />
+
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_negativo"
+        android:layout_toRightOf="@+id/btn_ok_info"
+        android:layout_toEndOf="@+id/btn_ok_info"
+        />
+
+    <Button
+        android:text="Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_ok_info"
+        android:layout_below="@+id/txt_cardapio_info"
+        android:layout_alignLeft="@+id/txt_cardapio_info"
+        android:layout_alignStart="@+id/txt_cardapio_info" />
 
 
 </RelativeLayout>

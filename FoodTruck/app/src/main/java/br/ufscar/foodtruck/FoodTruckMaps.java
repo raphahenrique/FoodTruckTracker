@@ -3,6 +3,7 @@ package br.ufscar.foodtruck;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.location.Location;
@@ -10,7 +11,6 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,6 +23,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+import com.facebook.Profile;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -47,11 +52,26 @@ public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallba
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
+    private CallbackManager callbackManager;
+    private AccessTokenTracker accessTokenTracker;
+    private AccessToken accessToken;
+
+    private Profile currentProfile;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+
         setContentView(R.layout.activity_food_truck_maps);
+
+        callbackManager = CallbackManager.Factory.create();
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -88,6 +108,42 @@ public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallba
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getSupportActionBar().setHomeButtonEnabled(true);
 
+        if(isLoggedIn(accessToken)){
+
+            accessTokenTracker = new AccessTokenTracker() {
+                @Override
+                protected void onCurrentAccessTokenChanged(
+                        AccessToken oldAccessToken,
+                        AccessToken currentAccessToken) {
+
+                    // Set the access token using
+                    // currentAccessToken when it's loaded or set.
+                }
+            };
+            // If the access token is available already assign it.
+            accessToken = AccessToken.getCurrentAccessToken();
+
+            currentProfile = Profile.getCurrentProfile();
+            if (currentProfile != null) {
+                Log.e("LOGADO", "Usuario logado=" + currentProfile.getFirstName() + " " + currentProfile.getLastName());
+            }
+        }
+
+
+    }
+
+
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        accessTokenTracker.stopTracking();
+    }
+
+    public boolean isLoggedIn(AccessToken accessToken) {
+        accessToken = AccessToken.getCurrentAccessToken();
+        return accessToken != null;
     }
 
 
@@ -104,15 +160,11 @@ public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallba
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        Truck mainTruck = new Truck("Epamiondas", new LatLng(-22.008166, -47.891448), 1, new LinkedList<FoodTruckTag>());
-
-        truckList.add(new Truck("Quase 2", new LatLng(-22.008474, -47.890708), 1, new LinkedList<FoodTruckTag>()));
-
-        truckList.add(new Truck("Trem Bão", new LatLng(-22.005748, -47.896759), 2, new LinkedList<FoodTruckTag>()));
-
-        truckList.add(new Truck("Rancho Marginal", new LatLng(-22.002654, -47.892167), 1, new LinkedList<FoodTruckTag>()));
-
-        truckList.add(new Truck("Tomodaty", new LatLng(-22.000555, -47.893916), 3, new LinkedList<FoodTruckTag>()));
+        Truck mainTruck = new Truck("Epamiondas", new LatLng(-22.008166, -47.891448));
+        truckList.add(new Truck("Quase 2", new LatLng(-22.008474, -47.890708)));
+        truckList.add(new Truck("Trem Bão", new LatLng(-22.005748, -47.896759)));
+        truckList.add(new Truck("Rancho Marginal", new LatLng(-22.002654, -47.892167)));
+        truckList.add(new Truck("Tomodaty", new LatLng(-22.000555, -47.893916)));
 
         for (Truck truck : truckList) {
             mMap.addMarker(new MarkerOptions().position(truck.getCurrentLocation()).title(truck.getName()));
@@ -143,7 +195,7 @@ public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallba
         //mMap.animateCamera(CameraUpdateFactory.zoomIn());
         //mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
 
-        mMap.setOnMarkerClickListener(new DialogAux(this));
+        mMap.setOnMarkerClickListener(new DialogAux(this, callbackManager));
 
 
 
