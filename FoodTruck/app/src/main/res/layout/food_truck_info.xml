@@ -63,15 +63,6 @@
         android:layout_alignStart="@+id/bar_avaliacao" />
 
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_negativo"
-        android:layout_toRightOf="@+id/btn_ok_info"
-        android:layout_toEndOf="@+id/btn_ok_info"
-        />
-
     <Button
         android:text="Button"
         android:layout_width="wrap_content"

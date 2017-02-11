@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
-    <string name="app_name">FoodTruck Guide</string>
+    <string name="app_name">Food Truck Tracker</string>
     <string name="email_field">email: </string>
     <string name="password_field">password: </string>
     <string name="button_send">Ok </string>

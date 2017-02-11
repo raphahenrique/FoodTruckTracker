@@ -22,12 +22,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.Profile;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -36,9 +38,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import br.ufscar.auxiliares.DialogAux;
+import br.ufscar.auxiliares.FacebookLogin;
 
 
 public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallback {
@@ -48,14 +52,18 @@ public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallba
     private String[] mTagsTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
+    private RelativeLayout mDrawerContainer;
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
-    private CallbackManager callbackManager;
     private AccessTokenTracker accessTokenTracker;
     private AccessToken accessToken;
 
+
+    private CallbackManager callbackManager;
+    private LoginButton loginButton;
     private Profile currentProfile;
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -77,6 +85,14 @@ public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallba
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        loadComponents();
+
+
+
+    }
+
+    private void loadComponents() {
+
         mTitle = mDrawerTitle = getTitle();
         mTagsTitles = getResources().getStringArray(R.array.tags_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -93,20 +109,27 @@ public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallba
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
 
-               // invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                // invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
 
         mDrawerLayout.addDrawerListener(mDrawerToggle);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerContainer = (RelativeLayout) findViewById(R.id.left_drawer_container);
+        mDrawerList = (ListView)mDrawerContainer.findViewById(R.id.left_drawer);
+
 
         mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mTagsTitles));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         mDrawerList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
+        loginButton = (LoginButton)mDrawerContainer.findViewById(R.id.login_button);
+
+
+
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getSupportActionBar().setHomeButtonEnabled(true);
 
+        
         if(isLoggedIn(accessToken)){
 
             accessTokenTracker = new AccessTokenTracker() {
@@ -129,10 +152,29 @@ public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallba
         }
 
 
+        //Lista de permissoes pode ser encontrada no site do facebook developers
+        List<String> permissionNeeds = Arrays.asList("email", "public_profile");
+        loginButton.setReadPermissions(permissionNeeds);
+
+        loginButton.registerCallback(callbackManager,new FacebookLogin());
+
+        if (currentProfile != null) {
+            //carregaImagem(currentProfile);
+        }
+
+
+
+
     }
 
+    public void carregaImagem(Profile profile){
+        //profile.getProfilePictureUri(200,200).toString()
+        //profile.getProfilePictureUri(imgFoodTruck.getWidth(),imgFoodTruck.getHeight());
 
+        //Preparar para imagem
+        //new DownloadImage(imgFoodTruck).execute(profile.getProfilePictureUri(50,50).toString());
 
+    }
 
     @Override
     public void onDestroy() {
@@ -188,14 +230,9 @@ public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallba
         LatLng newLastLocation = atualizaPosicao(this,mMap);
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(newLastLocation));
-
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newLastLocation, 15));
-
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
-        //mMap.animateCamera(CameraUpdateFactory.zoomIn());
-        //mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
 
-        mMap.setOnMarkerClickListener(new DialogAux(this, callbackManager));
+        mMap.setOnMarkerClickListener(new DialogAux(this));
 
 
 
@@ -204,18 +241,6 @@ public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallba
     @SuppressLint("NewApi")  // We check which build version we are using.
     //Funcao que pega localização atual do usuário
     public LatLng atualizaPosicao(Context ctx, GoogleMap mMap){
-
-
-
-/*
-        LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new MyLocationListener(mMap, this));
-
-        Location lastLocation = mlocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        LatLng newLastLocation = new LatLng(lastLocation.getLatitude(),lastLocation.getLongitude());
-        //LatLng newLastLocation = new LatLng(-22.008474,-47.891448);
-
-*/
 
         try {
             LocationManager mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -287,7 +312,7 @@ public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallba
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the content view
-        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+        boolean drawerOpened = mDrawerLayout.isDrawerOpen(mDrawerContainer);
         //menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
     }

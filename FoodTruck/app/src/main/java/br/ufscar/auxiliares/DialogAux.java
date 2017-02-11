@@ -15,9 +15,6 @@ import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
-import java.util.Arrays;
-import java.util.List;
-
 import br.ufscar.foodtruck.R;
 
 public class DialogAux implements GoogleMap.OnMarkerClickListener {
@@ -28,7 +25,7 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
     private TextView txtFoodTruckName;
     private TextView txtCardapio;
 
-    private static ImageView imgFoodTruck;
+    private ImageView imgFoodTruck;
     private RatingBar barAvaliacao;
     private ImageButton btnPositivo;
     private ImageButton btnNegativo;
@@ -38,10 +35,8 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
     private LoginButton loginButton;
     private Profile currentProfile;
 
-    public DialogAux(Context ctx, CallbackManager callbackManager){
+    public DialogAux(Context ctx){
         this.ctx = ctx;
-        this.callbackManager = callbackManager;
-        currentProfile = Profile.getCurrentProfile();
         dialog = new Dialog(ctx);
     }
 
@@ -71,23 +66,10 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
         txtFoodTruckName.setText(marker.getTitle());
         txtCardapio.setText("Cardapio");
 
-        //Lista de permissoes pode ser encontrada no site do facebook developers
-        List<String> permissionNeeds = Arrays.asList("email", "public_profile");
-        loginButton.setReadPermissions(permissionNeeds);
-
-        loginButton.registerCallback(callbackManager,new FacebookLogin());
-
         dialog.show();
 
     }
 
-    public void carregaImagem(Profile profile){
-        //profile.getProfilePictureUri(200,200).toString()
-        //profile.getProfilePictureUri(imgFoodTruck.getWidth(),imgFoodTruck.getHeight());
-
-        new DownloadImage(imgFoodTruck).execute(profile.getProfilePictureUri(50,50).toString());
-
-    }
 
     public void loadComponents(){
         txtFoodTruckName = (TextView)dialog.findViewById(R.id.txt_nome_food_truck);
@@ -97,13 +79,6 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
         btnNegativo = (ImageButton) dialog.findViewById(R.id.btn_negativo);
         txtCardapio = (TextView)dialog.findViewById(R.id.txt_cardapio_info);
         btnOk = (Button)dialog.findViewById(R.id.btn_ok_info);
-
-        if (currentProfile != null) {
-            carregaImagem(currentProfile);
-        }
-
-        loginButton = (LoginButton)dialog.findViewById(R.id.login_button);
-
 
     }
 
