@@ -39,6 +39,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import br.ufscar.auxiliares.DialogAux;
@@ -199,11 +200,19 @@ public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallba
         mMap = googleMap;
 
         //Adicionado novo construtor de truck
-        Truck mainTruck = new Truck("Epamiondas", new LatLng(-22.008166, -47.891448));
-        truckList.add(new Truck("Quase 2", new LatLng(-22.008474, -47.890708)));
-        truckList.add(new Truck("Trem Bão", new LatLng(-22.005748, -47.896759)));
-        truckList.add(new Truck("Rancho Marginal", new LatLng(-22.002654, -47.892167)));
-        truckList.add(new Truck("Tomodaty", new LatLng(-22.000555, -47.893916)));
+        //Truck mainTruck = new Truck("Epamiondas", new LatLng(-22.008166, -47.891448));
+
+        Collection<FoodTruckTag> tagsSelected;
+        tagsSelected = new ArrayList<FoodTruckTag>();
+        tagsSelected.add(new FoodTruckTag("Brasil"));
+        tagsSelected.add(new FoodTruckTag("Cerveja Artesanal"));
+        tagsSelected.add(new FoodTruckTag("Mexicano"));
+
+        Truck mainTruck = new Truck("Epamiondas", new LatLng(-22.008166, -47.891448),1, tagsSelected);
+        truckList.add(new Truck("Quase 2", new LatLng(-22.008474, -47.890708),1, tagsSelected));
+        truckList.add(new Truck("Trem Bão", new LatLng(-22.005748, -47.896759),2, tagsSelected));
+        truckList.add(new Truck("Rancho Marginal", new LatLng(-22.002654, -47.892167),2, tagsSelected));
+        truckList.add(new Truck("Tomodaty", new LatLng(-22.000555, -47.893916),0, tagsSelected));
 
         for (Truck truck : truckList) {
             mMap.addMarker(new MarkerOptions().position(truck.getCurrentLocation()).title(truck.getName()));

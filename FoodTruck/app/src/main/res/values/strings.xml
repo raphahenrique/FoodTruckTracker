@@ -9,6 +9,7 @@
     <string name="title_activity_truck_maps">TruckMaps</string>
     <string name="btn_ok_info">OK</string>
     <string name="txt_cardapio">Cardapio</string>
+    <string name="pricerange">$$$</string>
     <string name="register_name">Nome:</string>
     <string name="tags">TAGS</string>
     <string-array name="tags_array">
@@ -16,6 +17,14 @@
         <item>Portugues</item>
         <item>Brownie</item>
         <item>Pizza</item>
+        <item>USA</item>
+        <item>China</item>
+        <item>Brasil</item>
+        <item>Cerveja Artesanal</item>
+        <item>Chopp</item>
+        <item>Mediterraneo</item>
+        <item>Hot Dog</item>
+        <item>Vegano</item>
     </string-array>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>

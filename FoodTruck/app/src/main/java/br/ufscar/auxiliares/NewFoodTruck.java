@@ -68,8 +68,6 @@ public class NewFoodTruck implements GoogleMap.OnMapLongClickListener {
                 tagsSelected = new ArrayList<FoodTruckTag>();
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
-                //LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                //final View form = inflater.inflate(R.layout.item_data, null);
 
                 // Set the dialog title
                 builder.setTitle("Tags para o Food Truck")
@@ -81,7 +79,7 @@ public class NewFoodTruck implements GoogleMap.OnMapLongClickListener {
                                     public void onClick(DialogInterface dialog, int which,
                                                         boolean isChecked) {
 
-                                        FoodTruckTag currentTag = new FoodTruckTag(String.valueOf(which));
+                                        FoodTruckTag currentTag = new FoodTruckTag(which, ctx);
                                         if (isChecked) {
                                             // If the user checked the item, add it to the selected items
                                             tagsSelected.add(currentTag);
