@@ -231,7 +231,7 @@ public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallba
 
         mMap.setOnMarkerClickListener(new DialogAux(this));
 
-        mMap.setOnMapLongClickListener(new NewFoodTruck(this));
+        mMap.setOnMapLongClickListener(new NewFoodTruck(this,mMap));
 
 
     }
