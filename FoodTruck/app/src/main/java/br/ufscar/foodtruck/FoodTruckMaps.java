@@ -87,7 +87,37 @@ public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallba
 
         loadComponents();
 
+        if(isLoggedIn(accessToken)){
 
+            accessTokenTracker = new AccessTokenTracker() {
+                @Override
+                protected void onCurrentAccessTokenChanged(
+                        AccessToken oldAccessToken,
+                        AccessToken currentAccessToken) {
+
+                    // Set the access token using
+                    // currentAccessToken when it's loaded or set.
+                }
+            };
+            // If the access token is available already assign it.
+            accessToken = AccessToken.getCurrentAccessToken();
+
+            currentProfile = Profile.getCurrentProfile();
+            if (currentProfile != null) {
+                Log.e("LOGADO", "Usuario logado=" + currentProfile.getFirstName() + " " + currentProfile.getLastName());
+            }
+        }
+
+
+        //Lista de permissoes pode ser encontrada no site do facebook developers
+        List<String> permissionNeeds = Arrays.asList("email", "public_profile");
+        loginButton.setReadPermissions(permissionNeeds);
+
+        loginButton.registerCallback(callbackManager,new FacebookLogin());
+
+        if (currentProfile != null) {
+            //carregaImagem(currentProfile);
+        }
 
     }
 
@@ -128,39 +158,6 @@ public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallba
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getSupportActionBar().setHomeButtonEnabled(true);
-
-        
-        if(isLoggedIn(accessToken)){
-
-            accessTokenTracker = new AccessTokenTracker() {
-                @Override
-                protected void onCurrentAccessTokenChanged(
-                        AccessToken oldAccessToken,
-                        AccessToken currentAccessToken) {
-
-                    // Set the access token using
-                    // currentAccessToken when it's loaded or set.
-                }
-            };
-            // If the access token is available already assign it.
-            accessToken = AccessToken.getCurrentAccessToken();
-
-            currentProfile = Profile.getCurrentProfile();
-            if (currentProfile != null) {
-                Log.e("LOGADO", "Usuario logado=" + currentProfile.getFirstName() + " " + currentProfile.getLastName());
-            }
-        }
-
-
-        //Lista de permissoes pode ser encontrada no site do facebook developers
-        List<String> permissionNeeds = Arrays.asList("email", "public_profile");
-        loginButton.setReadPermissions(permissionNeeds);
-
-        loginButton.registerCallback(callbackManager,new FacebookLogin());
-
-        if (currentProfile != null) {
-            //carregaImagem(currentProfile);
-        }
 
 
 
