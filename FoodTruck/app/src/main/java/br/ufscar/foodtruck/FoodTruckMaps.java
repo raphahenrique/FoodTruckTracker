@@ -43,6 +43,7 @@ import java.util.List;
 
 import br.ufscar.auxiliares.DialogAux;
 import br.ufscar.auxiliares.FacebookLogin;
+import br.ufscar.auxiliares.NewFoodTruck;
 
 
 public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallback {
@@ -161,7 +162,6 @@ public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallba
 
 
 
-
     }
 
     public void carregaImagem(Profile profile){
@@ -231,6 +231,7 @@ public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallba
 
         mMap.setOnMarkerClickListener(new DialogAux(this));
 
+        mMap.setOnMapLongClickListener(new NewFoodTruck(this));
 
 
     }

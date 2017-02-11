@@ -9,6 +9,8 @@
     <string name="title_activity_truck_maps">TruckMaps</string>
     <string name="btn_ok_info">OK</string>
     <string name="txt_cardapio">Cardapio</string>
+    <string name="register_name">Nome:</string>
+    <string name="tags">TAGS</string>
     <string-array name="tags_array">
         <item>Mexicano</item>
         <item>Portugues</item>
