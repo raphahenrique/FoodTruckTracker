@@ -67,7 +67,8 @@ public class FacebookLogin implements FacebookCallback<LoginResult>{
     @Override
     public void onError(FacebookException error) {
         System.out.println("onError");
-        Log.v("LoginActivity", error.getCause().toString());
+        Log.v("LoginActivity", error.getMessage());
+        //Log.v("LoginActivity", error.getCause().getMessage());
     }
 }
 
