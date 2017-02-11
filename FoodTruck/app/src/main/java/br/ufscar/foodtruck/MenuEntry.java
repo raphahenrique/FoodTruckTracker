@@ -16,4 +16,26 @@ public class MenuEntry {
         this.ingredients = ingredients;
         this.picture = picture;
     }
+
+    // Getters
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public Collection<String> getIngredients() {
+        return ingredients;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
 }

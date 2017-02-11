@@ -9,6 +9,7 @@ import br.ufscar.auxiliares.EasyDate;
 import br.ufscar.auxiliares.EasyTime;
 
 public class Truck {
+    private int id;
     private String name;
     private EasyDate lastUpdate;
     private int priceRange;
@@ -20,7 +21,16 @@ public class Truck {
     private Collection<MenuEntry> menu;
     private Collection<Review> reviews;
 
-    Truck(String name, LatLng location, int priceRange, Collection<FoodTruckTag> tags){
+    public Truck(String name, LatLng location, int priceRange, Collection<FoodTruckTag> tags){
+        id = -1;
+        this.name = name;
+        this.locations = new LinkedList<>();
+        locations.add(new FoodTruckLocation(location));
+        this.priceRange = priceRange;
+    }
+
+    public Truck(int id, String name, LatLng location, int priceRange, Collection<FoodTruckTag> tags){
+        this.id = id;
         this.name = name;
         this.locations = new LinkedList<>();
         locations.add(new FoodTruckLocation(location));
@@ -28,7 +38,7 @@ public class Truck {
     }
 
     //Adicionado novo construtor de truck
-    Truck(String name, LatLng location){
+    public Truck(String name, LatLng location){
         this.name = name;
         this.locations = new LinkedList<>();
         locations.add(new FoodTruckLocation(location));
@@ -44,6 +54,8 @@ public class Truck {
     }
 
     // Getters and setters
+
+    public int getId() { return id; }
 
     public String getName() {
         return name;

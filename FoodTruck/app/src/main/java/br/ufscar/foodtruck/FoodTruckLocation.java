@@ -12,8 +12,15 @@ public class FoodTruckLocation {
     private EasyDate endDate;
     private EasyTime opensAt;
     private EasyTime closesAt;
+    private int score;
 
-    public FoodTruckLocation(LatLng location, String startDate, String endDate, String opensAt, String closesAt){}
+    public FoodTruckLocation(LatLng location, EasyDate startDate, EasyDate endDate, EasyTime opensAt, EasyTime closesAt) {
+        this.location = location;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.opensAt = opensAt;
+        this.closesAt = closesAt;
+    }
 
     public FoodTruckLocation(LatLng location) {
         this.location = location;
@@ -25,6 +32,8 @@ public class FoodTruckLocation {
     }
 
     void updateEndDate() {
+        endDate = new EasyDate();
+        endDate.increaseDate(7);
     }
 
     // Getters
@@ -47,4 +56,6 @@ public class FoodTruckLocation {
     public EasyTime getClosesAt() {
         return closesAt;
     }
+
+    public int getScore() { return score; }
 }
