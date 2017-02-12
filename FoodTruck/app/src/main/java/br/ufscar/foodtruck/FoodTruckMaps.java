@@ -50,7 +50,7 @@ import br.ufscar.auxiliares.NewFoodTruck;
 public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    public List<Truck> truckList = new ArrayList<Truck>();
+    public static List<Truck> truckList = new ArrayList<Truck>();
     private String[] mTagsTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
