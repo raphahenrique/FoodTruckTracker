@@ -40,6 +40,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import br.ufscar.auxiliares.Data;
@@ -67,6 +68,8 @@ public class FoodTruckMaps extends AppCompatActivity
     private LoginButton loginButton;
     private Profile currentProfile;
 
+    private List<FoodTruckTag> activeTags;
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -87,6 +90,10 @@ public class FoodTruckMaps extends AppCompatActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        activeTags = new LinkedList<>();
+        for (String s : mTagsTitles = getResources().getStringArray(R.array.tags_array))
+            activeTags.add(new FoodTruckTag(s));
 
         loadComponents();
 
@@ -109,6 +116,7 @@ public class FoodTruckMaps extends AppCompatActivity
             if (currentProfile != null) {
                 Log.e("LOGADO", "Usuario logado=" + currentProfile.getFirstName() + " " + currentProfile.getLastName());
             }
+
         }
 
 
@@ -121,6 +129,9 @@ public class FoodTruckMaps extends AppCompatActivity
         if (currentProfile != null) {
             //carregaImagem(currentProfile);
         }
+
+        for (int i = 0; i < getResources().getStringArray(R.array.tags_array).length; i++)
+            mDrawerList.setItemChecked(i, true);
 
     }
 
@@ -152,8 +163,27 @@ public class FoodTruckMaps extends AppCompatActivity
 
 
         mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mTagsTitles));
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                boolean tagFound = false;
+                for (FoodTruckTag tag : activeTags)
+                    if (tag.getName().equals(getResources().getStringArray(R.array.tags_array)[i])) {
+                        tagFound = true;
+                        activeTags.remove(tag);
+                        break;
+                    }
+
+                if (!tagFound)
+                    activeTags.add(new FoodTruckTag(getResources().getStringArray(R.array.tags_array)[i]));
+
+                pinTrucks();
+            }
+        });
         mDrawerList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+
 
         loginButton = (LoginButton)mDrawerContainer.findViewById(R.id.login_button);
 
@@ -164,6 +194,32 @@ public class FoodTruckMaps extends AppCompatActivity
 
 
 
+    }
+
+    public boolean activeTag(FoodTruckTag tag) {
+        for (FoodTruckTag t : activeTags) {
+            if (t.getName().equals(tag.getName()))
+                return true;
+        }
+        return false;
+    }
+
+    public void pinTrucks() {
+        mMap.clear();
+        boolean active;
+        for (Truck truck : Data.truckList) {
+            active = false;
+            for (FoodTruckTag tag : truck.getTags())
+                if (this.activeTag(tag))
+                    active = true;
+            if (active) {
+                Data.markers.clear();
+                Data.markers.add(mMap.addMarker(new MarkerOptions()
+                        .position(truck.getCurrentLocation())
+                        .title(truck.getName())));
+                Data.markers.peekLast().setTag(truck);
+            }
+        }
     }
 
     public void carregaImagem(Profile profile){
@@ -223,6 +279,11 @@ public class FoodTruckMaps extends AppCompatActivity
 
         Data.truckList.get(0).addReview(new Review(5, "daora demais", null));
         Data.truckList.get(0).addReview(new Review(4, "medio daora", null));
+
+        Data.truckList.get(0).addMenuItem(new MenuEntry("X-Tudo", "tem tudo", 10, null, null));
+        Data.truckList.get(0).addMenuItem(new MenuEntry("X-Salada", "tem salada", 8, null, null));
+        Data.truckList.get(0).addMenuItem(new MenuEntry("X-Bacon", "tem bacon", 9, null, null));
+        Data.truckList.get(0).addMenuItem(new MenuEntry("X-Egg", "tem ovo", 8, null, null));
 
         for (Truck truck : Data.truckList) {
 //            mMap.addMarker(new MarkerOptions()
