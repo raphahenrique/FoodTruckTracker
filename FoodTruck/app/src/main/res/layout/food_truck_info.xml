@@ -4,95 +4,111 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
 
-    <ImageButton
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_delete"
-        android:id="@+id/btn_negativo"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_input_add"
-        android:id="@+id/btn_positivo"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/btn_negativo"
-        android:layout_toStartOf="@+id/btn_negativo" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_menu_camera"
-        android:id="@+id/img_foodTruck"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="35dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="20dp" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_menu_camera"
+                android:id="@+id/img_foodTruck"
+                android:layout_marginRight="29dp"
+                android:layout_marginEnd="29dp"
+                android:layout_weight="1" />
 
-    <TextView
-        android:text="@string/pricerange"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtPriceRange"
-        android:textStyle="normal|bold"
-        android:textColor="@android:color/black"
-        android:textSize="18sp"
-        android:layout_marginTop="53dp"
-        android:layout_below="@+id/bar_avaliacao"
-        android:layout_centerHorizontal="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtNomeFoodtruck"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:layout_weight="1"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp" />
 
-    <RatingBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/bar_avaliacao"
-        android:layout_marginTop="43dp"
-        style="@style/Widget.AppCompat.RatingBar.Indicator"
-        android:layout_below="@+id/btn_positivo"
-        android:layout_centerHorizontal="true" />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_delete"
+                android:id="@+id/btn_negativo"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal" />
 
-    <Button
-        android:text="@string/btn_ok_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_ok_info"
-        android:layout_below="@+id/txtTags"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp" />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_input_add"
+                android:id="@+id/btn_positivo"
+                android:layout_weight="1" />
 
-    <TextView
-        android:text="@string/txt_cardapio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txt_cardapio_info"
-        android:textSize="18sp"
-        android:layout_marginTop="85dp"
-        android:layout_below="@+id/txtPriceRange"
-        android:layout_centerHorizontal="true" />
+        </LinearLayout>
 
-    <TextView
-        android:text="@string/tags"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtTags"
-        android:layout_marginTop="24dp"
-        android:textAlignment="center"
-        android:layout_below="@+id/txt_cardapio_info"
-        android:layout_centerHorizontal="true" />
+        <TextView
+            android:text="@string/tags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtTags"
+            android:textAlignment="center"
+            android:layout_marginTop="35dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal" />
 
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtNomeFoodtruck"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:layout_alignBottom="@+id/img_foodTruck"
-        android:layout_alignLeft="@+id/bar_avaliacao"
-        android:layout_alignStart="@+id/bar_avaliacao" />
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/bar_avaliacao"
+            android:layout_marginTop="57dp"
+            style="@style/Widget.AppCompat.RatingBar.Indicator"
+            android:layout_weight="1"
+            android:numStars="5"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:text="@string/pricerange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtPriceRange"
+            android:textStyle="normal|bold"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:layout_marginTop="13dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:text="@string/txt_cardapio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonCardapio"
+            android:layout_marginTop="21dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:text="@string/btn_ok_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_ok_info"
+            android:layout_marginTop="11dp"
+            android:layout_marginBottom="15dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
 
 
 </RelativeLayout>
