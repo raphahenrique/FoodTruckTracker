@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -19,6 +20,7 @@ import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
+import br.ufscar.foodtruck.FoodTruckMaps;
 import br.ufscar.foodtruck.FoodTruckTag;
 import br.ufscar.foodtruck.R;
 import br.ufscar.foodtruck.ReviewActivity;
@@ -49,6 +51,14 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
     public DialogAux(Context ctx){
         this.ctx = ctx;
         dialog = new Dialog(ctx);
+        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
+                if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_BACK)
+                    dialog.dismiss();
+                return true;
+            }
+        });
     }
 
     @Override
@@ -59,7 +69,7 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
         return true;
     }
 
-    public void showDialog(final Context ctx, Marker marker){
+
 
     public void showDialog(final Context ctx, Marker marker){
 
