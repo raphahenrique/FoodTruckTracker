@@ -179,7 +179,8 @@ public class FoodTruckMaps extends AppCompatActivity
     @Override
     public void onDestroy() {
         super.onDestroy();
-        accessTokenTracker.stopTracking();
+        if (accessTokenTracker != null)
+            accessTokenTracker.stopTracking();
     }
 
     public boolean isLoggedIn(AccessToken accessToken) {
