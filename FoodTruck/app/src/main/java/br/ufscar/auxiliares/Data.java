@@ -9,7 +9,7 @@ import br.ufscar.foodtruck.Truck;
 
 public class Data {
     private static int truckId = 0;
-    public static List<Truck> truckList = new LinkedList<>();
+    public static LinkedList<Truck> truckList = new LinkedList<>();
     public static LinkedList<Marker> markers = new LinkedList<>();
 
     public static void addTruck(Truck t) {

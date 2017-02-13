@@ -128,7 +128,8 @@ public class NewFoodTruck implements GoogleMap.OnMapLongClickListener {
                     String name = txtNome.getText().toString();
                     Data.addTruck(new Truck(name,location,intPriceRange,tagsSelected));
 
-                    mMap.addMarker(new MarkerOptions().position(location).title(name));
+                    Data.markers.add(mMap.addMarker(new MarkerOptions().position(location).title(name)));
+                    Data.markers.peekLast().setTag(Data.truckList.peekLast());
 
                     //EXEMPLO DE MARKER PERSONALIZADO
                     //MarkerOptions mo = newMarker(posicao, tmp.getTipo().toString(), "Data: " + d + "/" + (m+1) + "/" +a + "\r\nHora: " + hora +  ":" + min, BitmapDescriptorFactory.fromAsset(tmp.getTipo().toString().toLowerCase() + ".png"), ctx);
