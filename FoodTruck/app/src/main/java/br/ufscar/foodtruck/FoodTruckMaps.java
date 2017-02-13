@@ -42,6 +42,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import br.ufscar.auxiliares.Convert;
+import br.ufscar.auxiliares.Data;
 import br.ufscar.auxiliares.DialogAux;
 import br.ufscar.auxiliares.FacebookLogin;
 import br.ufscar.auxiliares.NewFoodTruck;
@@ -51,7 +53,6 @@ public class FoodTruckMaps extends AppCompatActivity
         implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    public List<Truck> truckList = new ArrayList<Truck>();
     private String[] mTagsTitles;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -209,18 +210,27 @@ public class FoodTruckMaps extends AppCompatActivity
         tagsSelected.add(new FoodTruckTag("Cerveja Artesanal"));
         tagsSelected.add(new FoodTruckTag("Mexicano"));
 
-        Truck mainTruck = new Truck("Epamiondas", new LatLng(-22.008166, -47.891448),1, tagsSelected);
-        truckList.add(new Truck("Quase 2", new LatLng(-22.008474, -47.890708),1, tagsSelected));
-        truckList.add(new Truck("Trem Bão", new LatLng(-22.005748, -47.896759),2, tagsSelected));
-        truckList.add(new Truck("Rancho Marginal", new LatLng(-22.002654, -47.892167),2, tagsSelected));
-        truckList.add(new Truck("Tomodaty", new LatLng(-22.000555, -47.893916),0, tagsSelected));
+        //Truck mainTruck = new Truck("Epamiondas", new LatLng(-22.008166, -47.891448),1, tagsSelected);
+        Data.truckList.add(new Truck("Quase 2", new LatLng(-22.008474, -47.890708),1, tagsSelected));
+        Data.truckList.add(new Truck("Trem Bão", new LatLng(-22.005748, -47.896759),2, tagsSelected));
+        Data.truckList.add(new Truck("Rancho Marginal", new LatLng(-22.002654, -47.892167),2, tagsSelected));
+        Data.truckList.add(new Truck("Tomodaty", new LatLng(-22.000555, -47.893916),0, tagsSelected));
 
-        for (Truck truck : truckList) {
-            mMap.addMarker(new MarkerOptions().position(truck.getCurrentLocation()).title(truck.getName()));
+//        Data.truckList.get(0).setCoverPicture(Convert.downloadImage("http://peixeurbano.s3.amazonaws.com/2011/9/29/0d47c39e-4ca6-4375-8405-78219355834d/Big/000254871jp_v1_big_001.jpg"));
 
+        Data.truckList.get(0).addReview(new Review(5, "daora demais", null));
+        Data.truckList.get(0).addReview(new Review(4, "medio daora", null));
+
+        for (Truck truck : Data.truckList) {
+//            mMap.addMarker(new MarkerOptions()
+//                            .position(truck.getCurrentLocation())
+//                            .title(truck.getName())
+//                            .snippet(Integer.toString(truck.getId())));
+            Data.markers.add(mMap.addMarker(new MarkerOptions()
+                                            .position(truck.getCurrentLocation())
+                                            .title(truck.getName())));
+            Data.markers.peekLast().setTag(truck);
         }
-
-        //mMap.addMarker(new MarkerOptions().position(mainTruck.getLocalization()).title(mainTruck.getName()));
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
