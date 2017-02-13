@@ -47,7 +47,8 @@ import br.ufscar.auxiliares.FacebookLogin;
 import br.ufscar.auxiliares.NewFoodTruck;
 
 
-public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallback {
+public class FoodTruckMaps extends AppCompatActivity
+        implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     public List<Truck> truckList = new ArrayList<Truck>();

@@ -134,6 +134,9 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
             }
         });
 
+        barAvaliacao.setMax(3);
+        barAvaliacao.setNumStars(3);
+        barAvaliacao.setProgress(2);
 
 
 

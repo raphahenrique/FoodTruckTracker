@@ -30,4 +30,8 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="action_websearch">Web search</string>
     <string name="facebook_app_id">689590897887734</string>
+
+    <string name="title_activity_splashscreen">Food Truck</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
