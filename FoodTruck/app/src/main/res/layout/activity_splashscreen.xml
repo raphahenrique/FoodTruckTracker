@@ -3,15 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#ff9328"
+    android:background="#ffd177"
     android:orientation="vertical"
     tools:context=".Splashscreen" >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.5"
-        android:background="#ff4422">
+        android:layout_weight="0.5">
 
         <ImageView
             android:layout_width="match_parent"
@@ -25,7 +24,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.5"
-        android:background="#AD24A4"
         >
 
         <ImageView
@@ -42,8 +40,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.5"
-        android:background="#C687BA">
+        android:layout_weight="0.5">
 
         <TextView
             android:layout_width="wrap_content"
@@ -53,8 +50,10 @@
             android:textSize="30sp"
             android:fontFamily="sans-serif-smallcaps"
             android:textStyle="normal|bold"
+            android:textColor="#00b0e3"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:textAlignment="viewStart" />
 
 
     </RelativeLayout>
