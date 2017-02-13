@@ -27,6 +27,7 @@ public class Truck {
         this.locations = new LinkedList<>();
         locations.add(new FoodTruckLocation(location));
         this.priceRange = priceRange;
+        this.tags = tags;
     }
 
     public Truck(int id, String name, LatLng location, int priceRange, Collection<FoodTruckTag> tags){
@@ -35,6 +36,7 @@ public class Truck {
         this.locations = new LinkedList<>();
         locations.add(new FoodTruckLocation(location));
         this.priceRange = priceRange;
+        this.tags = tags;
     }
 
 
@@ -49,6 +51,8 @@ public class Truck {
     // Getters and setters
 
     public int getId() { return id; }
+
+    public void setId(int id) { this.id = id; }
 
     public String getName() {
         return name;

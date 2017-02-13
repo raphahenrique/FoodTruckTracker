@@ -2,6 +2,8 @@ package br.ufscar.auxiliares;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -15,6 +17,7 @@ import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
+import br.ufscar.foodtruck.FoodTruckTag;
 import br.ufscar.foodtruck.R;
 import br.ufscar.foodtruck.Truck;
 
@@ -47,7 +50,7 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
     @Override
     public boolean onMarkerClick(Marker marker) {
         //currentTruck = Truck.getFoodTruckByName(marker.getTitle());
-        showDialog(ctx,marker);
+        showDialog(ctx, marker);
 
         return true;
     }
@@ -64,7 +67,8 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
 
         dialog.setTitle(marker.getTitle());
 
-        loadComponents();
+        loadComponents(Data.getTruckById(Integer.parseInt(marker.getSnippet())));
+//        loadComponents(marker.getTag());
 
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,7 +146,7 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
     }
 
 
-    public void loadComponents(){
+    public void loadComponents(Truck t){
         imgFoodTruck = (ImageView)dialog.findViewById(R.id.img_foodTruck);
         barAvaliacao = (RatingBar) dialog.findViewById(R.id.bar_avaliacao);
         btnPositivo = (ImageButton) dialog.findViewById(R.id.btn_positivo);
@@ -152,9 +156,21 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
         txtTags = (TextView)dialog.findViewById(R.id.txtTags);
         txtPriceRange = (TextView)dialog.findViewById(R.id.txtPriceRange);
 
+        if (t != null) {
+            String tags = "";
+            for (FoodTruckTag tag : t.getTags())
+                tags += tag.getName() + ", ";
+            txtTags.setText(tags.substring(0, tags.length() - 2));
 
+            String priceRange = "";
+            for (int i = 0; i < t.getPriceRange(); i++)
+                priceRange += "$";
+            txtPriceRange.setText(priceRange);
 
-
+            imgFoodTruck.setImageBitmap(t.getCoverPicture());
+        } else {
+            Log.e("Null truck", "Null truck was returned");
+        }
     }
 
 
