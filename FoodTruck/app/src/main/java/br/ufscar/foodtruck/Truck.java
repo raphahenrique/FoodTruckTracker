@@ -76,6 +76,10 @@ public class Truck {
         return items;
     }
 
+    public void addMenuItem(MenuEntry e) {
+        menu.add(e);
+    }
+
     // Getters and setters
 
     public int getId() { return id; }
