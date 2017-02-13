@@ -2,7 +2,7 @@ package br.ufscar.auxiliares;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.net.Uri;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.Marker;
 
 import br.ufscar.foodtruck.FoodTruckTag;
 import br.ufscar.foodtruck.R;
+import br.ufscar.foodtruck.ReviewActivity;
 import br.ufscar.foodtruck.Truck;
 
 public class DialogAux implements GoogleMap.OnMarkerClickListener {
@@ -56,7 +57,7 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
         return true;
     }
 
-    public void showDialog(Context ctx, Marker marker){
+    public void showDialog(final Context ctx, Marker marker){
 
 
 
@@ -71,6 +72,16 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
 //        loadComponents(Data.getTruckById(Integer.parseInt(marker.getSnippet())));
         loadComponents((Truck) marker.getTag());
 
+        barAvaliacao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent reviewIntent = new Intent(ctx.getApplicationContext(),ReviewActivity.class);
+                ctx.startActivity(reviewIntent);
+
+            }
+        });
+
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +92,7 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
         txtCardapio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 //abre uma lista do cardapio  exemplo:
                 /*
                 final AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
@@ -169,6 +181,9 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
             barAvaliacao.setRating(t.mediaReviews());
 
             //imgFoodTruck.setImageBitmap(t.getCoverPicture());
+
+            new DownloadImage(imgFoodTruck).execute("http://peixeurbano.s3.amazonaws.com/2011/9/29/0d47c39e-4ca6-4375-8405-78219355834d/Big/000254871jp_v1_big_001.jpg");
+            imgFoodTruck.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 
             txtNomeFoodtruck.setText(t.getName());
         } else {

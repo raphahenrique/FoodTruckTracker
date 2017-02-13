@@ -42,7 +42,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import br.ufscar.auxiliares.Convert;
 import br.ufscar.auxiliares.Data;
 import br.ufscar.auxiliares.DialogAux;
 import br.ufscar.auxiliares.FacebookLogin;
@@ -217,7 +216,10 @@ public class FoodTruckMaps extends AppCompatActivity
         Data.truckList.add(new Truck("Rancho Marginal", new LatLng(-22.002654, -47.892167),2, tagsSelected));
         Data.truckList.add(new Truck("Tomodaty", new LatLng(-22.000555, -47.893916),0, tagsSelected));
 
-//        Data.truckList.get(0).setCoverPicture(Convert.downloadImage("http://peixeurbano.s3.amazonaws.com/2011/9/29/0d47c39e-4ca6-4375-8405-78219355834d/Big/000254871jp_v1_big_001.jpg"));
+        //
+        //Data.truckList.get(0).setCoverPicture(Convert.downloadImage("http://peixeurbano.s3.amazonaws.com/2011/9/29/0d47c39e-4ca6-4375-8405-78219355834d/Big/000254871jp_v1_big_001.jpg"));
+
+        //Data.truckList.get(0).setCoverPicture();
 
         Data.truckList.get(0).addReview(new Review(5, "daora demais", null));
         Data.truckList.get(0).addReview(new Review(4, "medio daora", null));
