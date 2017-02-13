@@ -35,6 +35,7 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
     private Button btnOk;
     private TextView txtTags;
     private TextView txtPriceRange;
+    private TextView txtNomeFoodtruck;
 
     private Truck currentTruck;
 
@@ -67,8 +68,8 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
 
         dialog.setTitle(marker.getTitle());
 
-        loadComponents(Data.getTruckById(Integer.parseInt(marker.getSnippet())));
-//        loadComponents(marker.getTag());
+//        loadComponents(Data.getTruckById(Integer.parseInt(marker.getSnippet())));
+        loadComponents((Truck) marker.getTag());
 
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,6 +156,7 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
         btnOk = (Button)dialog.findViewById(R.id.btn_ok_info);
         txtTags = (TextView)dialog.findViewById(R.id.txtTags);
         txtPriceRange = (TextView)dialog.findViewById(R.id.txtPriceRange);
+        txtNomeFoodtruck = (TextView)dialog.findViewById(R.id.txtNomeFoodtruck);
 
         if (t != null) {
             String tags = "";
@@ -167,7 +169,11 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
                 priceRange += "$";
             txtPriceRange.setText(priceRange);
 
-            imgFoodTruck.setImageBitmap(t.getCoverPicture());
+            barAvaliacao.setRating(t.mediaReviews());
+
+            //imgFoodTruck.setImageBitmap(t.getCoverPicture());
+
+            txtNomeFoodtruck.setText(t.getName());
         } else {
             Log.e("Null truck", "Null truck was returned");
         }

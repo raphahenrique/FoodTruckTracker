@@ -28,6 +28,8 @@ public class Truck {
         locations.add(new FoodTruckLocation(location));
         this.priceRange = priceRange;
         this.tags = tags;
+        this.reviews = new LinkedList<>();
+        this.menu = new LinkedList<>();
     }
 
     public Truck(int id, String name, LatLng location, int priceRange, Collection<FoodTruckTag> tags){
@@ -37,6 +39,8 @@ public class Truck {
         locations.add(new FoodTruckLocation(location));
         this.priceRange = priceRange;
         this.tags = tags;
+        this.reviews = new LinkedList<>();
+        this.menu = new LinkedList<>();
     }
 
 
@@ -46,6 +50,22 @@ public class Truck {
                 return l.getLocation();
         }
         return null;
+    }
+
+    public void addReview(Review r) {
+        reviews.add(r);
+    }
+
+    public float mediaReviews() {
+        float somaNotas = 0;
+        int contador = 0;
+        for (Review r : reviews) {
+            somaNotas += r.getRating();
+            contador++;
+        }
+        if (contador == 0)
+            return 0;
+        return somaNotas/contador;
     }
 
     // Getters and setters

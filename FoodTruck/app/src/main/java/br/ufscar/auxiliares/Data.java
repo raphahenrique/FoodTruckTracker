@@ -1,5 +1,7 @@
 package br.ufscar.auxiliares;
 
+import com.google.android.gms.maps.model.Marker;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import br.ufscar.foodtruck.Truck;
 public class Data {
     private static int truckId = 0;
     public static List<Truck> truckList = new LinkedList<>();
+    public static LinkedList<Marker> markers = new LinkedList<>();
 
     public static void addTruck(Truck t) {
         if (t.getId() == -1) {

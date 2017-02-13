@@ -217,15 +217,18 @@ public class FoodTruckMaps extends AppCompatActivity implements OnMapReadyCallba
 
 //        Data.truckList.get(0).setCoverPicture(Convert.downloadImage("http://peixeurbano.s3.amazonaws.com/2011/9/29/0d47c39e-4ca6-4375-8405-78219355834d/Big/000254871jp_v1_big_001.jpg"));
 
+        Data.truckList.get(0).addReview(new Review(5, "daora demais", null));
+        Data.truckList.get(0).addReview(new Review(4, "medio daora", null));
+
         for (Truck truck : Data.truckList) {
-            mMap.addMarker(new MarkerOptions()
-                            .position(truck.getCurrentLocation())
-                            .title(truck.getName())
-                            .snippet(Integer.toString(truck.getId())));
-//            Data.markers.add(mMap.addMarker(new MarkerOptions()
-//                                            .position(truck.getCurrentLocation())
-//                                            .title(truck.getName())));
-//            Data.markers.peekLast().setTag(truck);
+//            mMap.addMarker(new MarkerOptions()
+//                            .position(truck.getCurrentLocation())
+//                            .title(truck.getName())
+//                            .snippet(Integer.toString(truck.getId())));
+            Data.markers.add(mMap.addMarker(new MarkerOptions()
+                                            .position(truck.getCurrentLocation())
+                                            .title(truck.getName())));
+            Data.markers.peekLast().setTag(truck);
         }
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
