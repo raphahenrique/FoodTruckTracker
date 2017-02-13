@@ -126,7 +126,7 @@ public class NewFoodTruck implements GoogleMap.OnMapLongClickListener {
             {
                 if(!emptyName()){
                     String name = txtNome.getText().toString();
-                    FoodTruckMaps.truckList.add(new Truck(name,location,intPriceRange,tagsSelected));
+                    Data.addTruck(new Truck(name,location,intPriceRange,tagsSelected));
 
                     mMap.addMarker(new MarkerOptions().position(location).title(name));
 
