@@ -1,8 +1,10 @@
 package br.ufscar.auxiliares;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
+import android.content.DialogInterface;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,7 +29,7 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
     private Context ctx;
     private final Dialog dialog;
 
-    private TextView txtCardapio;
+    private Button buttonCardapio;
 
     private ImageView imgFoodTruck;
     private RatingBar barAvaliacao;
@@ -59,6 +61,8 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
 
     public void showDialog(final Context ctx, Marker marker){
 
+    public void showDialog(final Context ctx, Marker marker){
+
 
 
         marker.hideInfoWindow();
@@ -70,7 +74,8 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
         dialog.setTitle(marker.getTitle());
 
 //        loadComponents(Data.getTruckById(Integer.parseInt(marker.getSnippet())));
-        loadComponents((Truck) marker.getTag());
+        final Truck curTruck = (Truck) marker.getTag();
+        loadComponents(curTruck);
 
         barAvaliacao.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,36 +94,19 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
             }
         });
 
-        txtCardapio.setOnClickListener(new View.OnClickListener() {
+        buttonCardapio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 //abre uma lista do cardapio  exemplo:
-                /*
+
                 final AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
 
                 // Set the dialog title
-                builder.setTitle("Tags para o Food Truck")
+                builder.setTitle("Cardápio")
                         // Specify the list array, the items to be selected by default (null for none),
                         // and the listener through which to receive callbacks when items are selected
-                        .setMultiChoiceItems(R.array.tags_array, null,
-                                new DialogInterface.OnMultiChoiceClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which,
-                                                        boolean isChecked) {
-
-                                        FoodTruckTag currentTag = new FoodTruckTag(which, ctx);
-                                        if (isChecked) {
-                                            // If the user checked the item, add it to the selected items
-                                            tagsSelected.add(currentTag);
-                                            Log.e("Adiciona tag: ",currentTag.getName());
-                                        } else {
-                                            // Else, if the item is already in the array, remove it
-                                            tagsSelected.remove(currentTag);
-                                            Log.e("remove tag: ",currentTag.getName());
-                                        }
-                                    }
-                                })
+                        .setItems(curTruck.menuItems(), null)
                         // Set the action buttons
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
@@ -127,20 +115,12 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
                                 // or return them to the component that opened the dialog
 
                             }
-                        })
-                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                for (FoodTruckTag iTag : tagsSelected) {
-                                    tagsSelected.remove(iTag);
-                                }
-                            }
                         });
 
 
                 builder.create();
                 builder.show();
-                 */
+
             }
         });
 
@@ -161,7 +141,7 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
         barAvaliacao = (RatingBar) dialog.findViewById(R.id.bar_avaliacao);
         btnPositivo = (ImageButton) dialog.findViewById(R.id.btn_positivo);
         btnNegativo = (ImageButton) dialog.findViewById(R.id.btn_negativo);
-        txtCardapio = (TextView)dialog.findViewById(R.id.txt_cardapio_info);
+        buttonCardapio = (Button) dialog.findViewById(R.id.buttonCardapio);
         btnOk = (Button)dialog.findViewById(R.id.btn_ok_info);
         txtTags = (TextView)dialog.findViewById(R.id.txtTags);
         txtPriceRange = (TextView)dialog.findViewById(R.id.txtPriceRange);
@@ -181,6 +161,7 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
             barAvaliacao.setRating(t.mediaReviews());
 
             //imgFoodTruck.setImageBitmap(t.getCoverPicture());
+            new DownloadImage(imgFoodTruck).execute("http://peixeurbano.s3.amazonaws.com/2011/9/29/0d47c39e-4ca6-4375-8405-78219355834d/Big/000254871jp_v1_big_001.jpg");
 
             new DownloadImage(imgFoodTruck).execute("http://peixeurbano.s3.amazonaws.com/2011/9/29/0d47c39e-4ca6-4375-8405-78219355834d/Big/000254871jp_v1_big_001.jpg");
             imgFoodTruck.setScaleType(ImageView.ScaleType.CENTER_INSIDE);

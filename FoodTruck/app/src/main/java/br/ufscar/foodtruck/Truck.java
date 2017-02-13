@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import com.google.android.gms.maps.model.LatLng;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 import br.ufscar.auxiliares.EasyDate;
 import br.ufscar.auxiliares.EasyTime;
@@ -18,7 +19,7 @@ public class Truck {
 
     private Collection<FoodTruckLocation> locations;
     private Collection<FoodTruckTag> tags;
-    private Collection<MenuEntry> menu;
+    private List<MenuEntry> menu;
     private Collection<Review> reviews;
 
     public Truck(String name, LatLng location, int priceRange, Collection<FoodTruckTag> tags){
@@ -66,6 +67,13 @@ public class Truck {
         if (contador == 0)
             return 0;
         return somaNotas/contador;
+    }
+
+    public CharSequence[] menuItems() {
+        CharSequence[] items = new CharSequence[menu.size()];
+        for (int i = 0; i < menu.size(); i++)
+            items[i] = menu.get(i).getName();
+        return items;
     }
 
     // Getters and setters
@@ -126,7 +134,7 @@ public class Truck {
         return menu;
     }
 
-    public void setMenu(Collection<MenuEntry> menu) {
+    public void setMenu(List<MenuEntry> menu) {
         this.menu = menu;
     }
 
