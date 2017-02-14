@@ -2,7 +2,6 @@ package br.ufscar.foodtruck;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -12,8 +11,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.facebook.Profile;
+
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.ArrayList;
 
 public class ReviewActivity extends AppCompatActivity implements Serializable {
 
@@ -23,13 +24,15 @@ public class ReviewActivity extends AppCompatActivity implements Serializable {
     private TextView reviewTxtName;
     private ListView reviewListview;
 
+    private Profile currentProfile;
     private static CustomAdapter adapter;
-    private Collection<Review> dataReview;
+    private ArrayList<Review> dataReview;
 
     private String firstName;
     private String lastName;
     private String picture;
 
+    private String truckName;
     private int cont;
 
     @Override
@@ -56,11 +59,15 @@ public class ReviewActivity extends AppCompatActivity implements Serializable {
 
         loadListView();
 
+        new DownloadImage(reviewImgFoodTruck).execute("http://peixeurbano.s3.amazonaws.com/2011/9/29/0d47c39e-4ca6-4375-8405-78219355834d/Big/000254871jp_v1_big_001.jpg");
+        reviewImgFoodTruck.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+
+        reviewTxtName.setText(truckName.toString());
+        
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
             }
         });
     }
@@ -69,12 +76,18 @@ public class ReviewActivity extends AppCompatActivity implements Serializable {
 
         Bundle bundle = getIntent().getExtras();
 
+        currentProfile = Profile.getCurrentProfile();
+        if (currentProfile != null) {
+            Log.e("LOGADO", "Usuario logado=" + currentProfile.getFirstName() + " " + currentProfile.getLastName());
+            Log.e("FIRST NAME: ", firstName);
+        }
         firstName = bundle.getString("first_name");
         lastName = bundle.getString("last_name");
         picture = bundle.getString("picture");
-
+        truckName = bundle.getString("truck_name");
         cont = bundle.getInt("cont");
 
+        dataReview = new ArrayList<Review>();
 
         for(int i = 0; i<=cont;i++){
 
@@ -86,7 +99,7 @@ public class ReviewActivity extends AppCompatActivity implements Serializable {
             Log.e("data review:", "name:"+name+"; rating" + rating);
         }
 
-        Log.e("FIRST NAME: ", firstName);
+        //
 
     }
 
@@ -103,10 +116,9 @@ public class ReviewActivity extends AppCompatActivity implements Serializable {
     private void loadListView(){
 
 
-        //adapter = new CustomAdapter(this, )
+        adapter = new CustomAdapter(this,dataReview);
 
-
-        //reviewListview.setAdapter(adapter);
+        reviewListview.setAdapter(adapter);
 
     }
 

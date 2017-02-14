@@ -31,7 +31,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.3">
+            android:layout_weight="0.2">
 
             <TextView
                 android:text="John Seed"
@@ -56,7 +56,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.7">
+            android:layout_weight="0.8">
             <TextView
                 android:text="Muitos comentarios, a galera elogia mas também critica. Boa sorte guerreiro!"
                 android:layout_width="wrap_content"

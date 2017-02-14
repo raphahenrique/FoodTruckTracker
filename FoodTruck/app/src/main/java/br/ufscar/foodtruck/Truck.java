@@ -64,9 +64,11 @@ public class Truck {
     public float mediaReviews() {
         float somaNotas = 0;
         int contador = 0;
-        for (Review r : reviews) {
-            somaNotas += r.getRating();
-            contador++;
+        if (reviews!=null) {
+            for (Review r : reviews) {
+                somaNotas += r.getRating();
+                contador++;
+            }
         }
         if (contador == 0)
             return 0;
