@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             app:srcCompat="@drawable/com_facebook_profile_picture_blank_portrait"
             android:id="@+id/listview_img_profile"
-            android:scaleType="fitXY"
+            android:scaleType="fitCenter"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_height="80dp" />
@@ -30,7 +30,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="0.2">
 
             <TextView
