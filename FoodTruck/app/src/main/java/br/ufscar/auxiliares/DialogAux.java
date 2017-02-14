@@ -113,7 +113,7 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
                     bundle.putInt("truckPos", truckPos);
 
                     for (Review elem : curTruck.getReviews()) {
-                        bundle.putInt("rating_" + i, elem.getRating());
+                        bundle.putInt("rating_" + i, (int) elem.getRating());
                         bundle.putString("user_" + i, elem.getName());
                         bundle.putString("comment_" + i, elem.getComment());
                         i++;

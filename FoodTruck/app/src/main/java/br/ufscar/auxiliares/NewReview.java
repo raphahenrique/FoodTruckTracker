@@ -58,7 +58,7 @@ public class NewReview implements View.OnClickListener {
                     String comentario = txtComentario.getText().toString();
 
                     Data.truckList.get(nroFoodTruck).addReview(new Review(currentProfile.getFirstName() +
-                            " "+ currentProfile.getLastName(),barReview.getNumStars(), comentario,
+                            " "+ currentProfile.getLastName(),barReview.getRating(), comentario,
                             currentProfile.getProfilePictureUri(100,100).toString()));
 
                     Snackbar snackbar = Snackbar

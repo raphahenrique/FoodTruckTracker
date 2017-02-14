@@ -4,14 +4,14 @@ import br.ufscar.auxiliares.EasyDate;
 
 public class Review {
 
-    private int rating;
+    private float rating;
     private String comment;
     private EasyDate date;
     private String picture;
     private String name;
 
 
-    public Review(String name, int rating, String comment, String picture) {
+    public Review(String name, float rating, String comment, String picture) {
         this.name = name;
         this.rating = rating;
         this.comment = comment;
@@ -35,7 +35,7 @@ public class Review {
         this.comment = comment;
     }
 
-    public int getRating() {
+    public float getRating() {
         return rating;
     }
 
