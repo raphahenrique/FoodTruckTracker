@@ -18,15 +18,16 @@ public class Truck {
     private int priceRange;
     private Bitmap coverPicture;
     private boolean byOwner;
+    private String registrarToken;
 
     private Collection<FoodTruckLocation> locations;
     private Collection<FoodTruckTag> tags;
     private List<MenuEntry> menu;
-    private Collection<Review> reviews;
+    private List<Review> reviews;
 
     //Construtor com reviews
     public Truck(String name, LatLng location, int priceRange, Collection<FoodTruckTag> tags,
-                 Collection<Review> reviews){
+                 List<Review> reviews, String registrarToken){
         id = -1;
         this.name = name;
         this.locations = new LinkedList<>();
@@ -35,9 +36,22 @@ public class Truck {
         this.tags = tags;
         this.reviews = reviews;
         this.menu = new LinkedList<>();
+        this.registrarToken = registrarToken;
     }
 
-    public Truck(int id, String name, LatLng location, int priceRange, Collection<FoodTruckTag> tags){
+    public Truck(String name, LatLng location, int priceRange, Collection<FoodTruckTag> tags, String registrarToken){
+        this.id = -1;
+        this.name = name;
+        this.locations = new LinkedList<>();
+        locations.add(new FoodTruckLocation(location));
+        this.priceRange = priceRange;
+        this.tags = tags;
+        this.reviews = new LinkedList<>();
+        this.menu = new LinkedList<>();
+        this.registrarToken = registrarToken;
+    }
+
+    public Truck(int id, String name, LatLng location, int priceRange, Collection<FoodTruckTag> tags, String registrarToken){
         this.id = id;
         this.name = name;
         this.locations = new LinkedList<>();
@@ -46,6 +60,7 @@ public class Truck {
         this.tags = tags;
         this.reviews = new LinkedList<>();
         this.menu = new LinkedList<>();
+        this.registrarToken = registrarToken;
     }
 
 
@@ -100,6 +115,10 @@ public class Truck {
         this.name = name;
     }
 
+    public String getRegistrarToken() {
+        return registrarToken;
+    }
+
     public EasyDate getLastUpdate() {
         return lastUpdate;
     }
@@ -152,7 +171,7 @@ public class Truck {
         return reviews;
     }
 
-    public void setReviews(Collection<Review> reviews) {
+    public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
 

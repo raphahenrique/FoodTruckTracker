@@ -42,7 +42,6 @@ public class ReviewActivity extends AppCompatActivity implements Serializable {
 
         loadBundle();
 
-
         loadComponents();
 
 

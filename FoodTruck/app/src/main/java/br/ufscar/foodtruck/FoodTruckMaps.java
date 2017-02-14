@@ -69,8 +69,7 @@ public class FoodTruckMaps extends AppCompatActivity
     private LoginButton loginButton;
     private Profile currentProfile;
 
-    private List<FoodTruckTag> activeTags;
-
+    private static List<FoodTruckTag> activeTags;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -179,25 +178,15 @@ public class FoodTruckMaps extends AppCompatActivity
                 if (!tagFound)
                     activeTags.add(new FoodTruckTag(getResources().getStringArray(R.array.tags_array)[i]));
 
-                pinTrucks();
+                pinTrucks(mMap);
             }
         });
         mDrawerList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
-
-
         loginButton = (LoginButton)mDrawerContainer.findViewById(R.id.login_button);
-
-
-
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //getSupportActionBar().setHomeButtonEnabled(true);
-
-
-
     }
 
-    public boolean activeTag(FoodTruckTag tag) {
+    public static boolean activeTag(FoodTruckTag tag) {
         for (FoodTruckTag t : activeTags) {
             if (t.getName().equals(tag.getName()))
                 return true;
@@ -205,13 +194,13 @@ public class FoodTruckMaps extends AppCompatActivity
         return false;
     }
 
-    public void pinTrucks() {
+    public static void pinTrucks(GoogleMap mMap) {
         mMap.clear();
         boolean active;
         for (Truck truck : Data.truckList) {
             active = false;
             for (FoodTruckTag tag : truck.getTags())
-                if (this.activeTag(tag))
+                if (activeTag(tag))
                     active = true;
             if (active) {
                 Data.markers.clear();
@@ -274,10 +263,10 @@ public class FoodTruckMaps extends AppCompatActivity
         reviewsSelected.add(new Review("Jose Vieira",5,"Bom",null));
 
         //Truck mainTruck = new Truck("Epamiondas", new LatLng(-22.008166, -47.891448),1, tagsSelected);
-        Data.truckList.add(new Truck("Quase 2", new LatLng(-22.008474, -47.890708),1, tagsSelected,reviewsSelected));
-        Data.truckList.add(new Truck("Trem Bão", new LatLng(-22.005748, -47.896759),2, tagsSelected,reviewsSelected));
-        Data.truckList.add(new Truck("Rancho Marginal", new LatLng(-22.002654, -47.892167),2, tagsSelected,null));
-        Data.truckList.add(new Truck("Tomodaty", new LatLng(-22.000555, -47.893916),0, tagsSelected,null));
+        Data.truckList.add(new Truck("Quase 2", new LatLng(-22.008474, -47.890708),1, tagsSelected, null));
+        Data.truckList.add(new Truck("Trem Bão", new LatLng(-22.005748, -47.896759),2, tagsSelected, null));
+        Data.truckList.add(new Truck("Rancho Marginal", new LatLng(-22.002654, -47.892167),2, tagsSelected, null));
+        Data.truckList.add(new Truck("Tomodaty", new LatLng(-22.000555, -47.893916),0, tagsSelected, null));
 
         //
         //Data.truckList.get(0).setCoverPicture(Convert.downloadImage("http://peixeurbano.s3.amazonaws.com/2011/9/29/0d47c39e-4ca6-4375-8405-78219355834d/Big/000254871jp_v1_big_001.jpg"));
@@ -293,10 +282,6 @@ public class FoodTruckMaps extends AppCompatActivity
         Data.truckList.get(0).addMenuItem(new MenuEntry("X-Egg", "tem ovo", 8, null, null));
 
         for (Truck truck : Data.truckList) {
-//            mMap.addMarker(new MarkerOptions()
-//                            .position(truck.getCurrentLocation())
-//                            .title(truck.getName())
-//                            .snippet(Integer.toString(truck.getId())));
             Data.markers.add(mMap.addMarker(new MarkerOptions()
                                             .position(truck.getCurrentLocation().getLocation())
                                             .title(truck.getName())));
@@ -320,7 +305,7 @@ public class FoodTruckMaps extends AppCompatActivity
         mMap.moveCamera(CameraUpdateFactory.newLatLng(newLastLocation));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
 
-        mMap.setOnMarkerClickListener(new DialogAux(this));
+        mMap.setOnMarkerClickListener(new DialogAux(this, mMap));
 
         mMap.setOnMapLongClickListener(new NewFoodTruck(this,mMap));
 
