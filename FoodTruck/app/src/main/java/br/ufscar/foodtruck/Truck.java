@@ -16,13 +16,14 @@ public class Truck {
     private int priceRange;
     private Bitmap coverPicture;
     private boolean byOwner;
+    private String registrarToken;
 
     private Collection<FoodTruckLocation> locations;
     private Collection<FoodTruckTag> tags;
     private List<MenuEntry> menu;
     private Collection<Review> reviews;
 
-    public Truck(String name, LatLng location, int priceRange, Collection<FoodTruckTag> tags){
+    public Truck(String name, LatLng location, int priceRange, Collection<FoodTruckTag> tags, String registrarToken){
         id = -1;
         this.name = name;
         this.locations = new LinkedList<>();
@@ -31,9 +32,10 @@ public class Truck {
         this.tags = tags;
         this.reviews = new LinkedList<>();
         this.menu = new LinkedList<>();
+        this.registrarToken = registrarToken;
     }
 
-    public Truck(int id, String name, LatLng location, int priceRange, Collection<FoodTruckTag> tags){
+    public Truck(int id, String name, LatLng location, int priceRange, Collection<FoodTruckTag> tags, String registrarToken){
         this.id = id;
         this.name = name;
         this.locations = new LinkedList<>();
@@ -42,6 +44,7 @@ public class Truck {
         this.tags = tags;
         this.reviews = new LinkedList<>();
         this.menu = new LinkedList<>();
+        this.registrarToken = registrarToken;
     }
 
 
@@ -92,6 +95,10 @@ public class Truck {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getRegistrarToken() {
+        return registrarToken;
     }
 
     public EasyDate getLastUpdate() {

@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 
+import com.facebook.AccessToken;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -126,7 +127,7 @@ public class NewFoodTruck implements GoogleMap.OnMapLongClickListener {
             {
                 if(!emptyName()){
                     String name = txtNome.getText().toString();
-                    Data.addTruck(new Truck(name,location,intPriceRange,tagsSelected));
+                    Data.addTruck(new Truck(name,location,intPriceRange,tagsSelected, AccessToken.getCurrentAccessToken().toString()));
 
                     Data.markers.add(mMap.addMarker(new MarkerOptions().position(location).title(name)));
                     Data.markers.peekLast().setTag(Data.truckList.peekLast());

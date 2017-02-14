@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.Profile;
 import com.facebook.login.widget.LoginButton;
@@ -44,6 +45,8 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
     private TextView txtPriceRange;
     private TextView txtNomeFoodtruck;
     private TextView txtScore;
+    private Button buttonEditFoodtruck;
+    private GoogleMap mMap;
 
     private Truck currentTruck;
 
@@ -51,8 +54,9 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
     private LoginButton loginButton;
     private Profile currentProfile;
 
-    public DialogAux(Context ctx){
+    public DialogAux(Context ctx, GoogleMap mMap){
         this.ctx = ctx;
+        this.mMap = mMap;
         dialog = new Dialog(ctx);
         dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
@@ -149,6 +153,16 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
             }
         });
 
+        buttonEditFoodtruck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Data.truckList.remove(curTruck);
+                NewFoodTruck ft = new NewFoodTruck(ctx,mMap);
+                ft.onMapLongClick(curTruck.getCurrentLocation().getLocation());
+                FoodTruckMaps.pinTrucks(mMap);
+            }
+        });
+
         dialog.show();
 
     }
@@ -165,22 +179,32 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
         txtPriceRange = (TextView)dialog.findViewById(R.id.txtPriceRange);
         txtNomeFoodtruck = (TextView)dialog.findViewById(R.id.txtNomeFoodtruck);
         txtScore = (TextView) dialog.findViewById(R.id.txtScore);
+        buttonEditFoodtruck = (Button) dialog.findViewById(R.id.buttonEditFoodtruck);
 
         if (t != null) {
             String tags = "";
-            for (FoodTruckTag tag : t.getTags())
-                tags += tag.getName() + ", ";
-            txtTags.setText(tags.substring(0, tags.length() - 2));
+            if (t.getTags() != null) {
+                for (FoodTruckTag tag : t.getTags())
+                    tags += tag.getName() + ", ";
+                txtTags.setText(tags.substring(0, tags.length() - 2));
+            } else
+                txtTags.setText(tags);
 
             String priceRange = "";
             for (int i = 0; i < t.getPriceRange(); i++)
                 priceRange += "$";
+
             txtPriceRange.setText(priceRange);
 
             barAvaliacao.setRating(t.mediaReviews());
 
             new DownloadImage(imgFoodTruck).execute("http://peixeurbano.s3.amazonaws.com/2011/9/29/0d47c39e-4ca6-4375-8405-78219355834d/Big/000254871jp_v1_big_001.jpg");
             imgFoodTruck.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+
+            if (AccessToken.getCurrentAccessToken().toString().equals(t.getRegistrarToken()))
+                buttonEditFoodtruck.setVisibility(View.VISIBLE);
+            else
+                buttonEditFoodtruck.setVisibility(View.GONE);
 
             txtNomeFoodtruck.setText(t.getName());
         } else {
