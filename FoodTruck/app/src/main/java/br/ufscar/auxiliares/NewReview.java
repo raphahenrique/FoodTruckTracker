@@ -61,7 +61,10 @@ public class NewReview implements View.OnClickListener {
                             " "+ currentProfile.getLastName(),barReview.getNumStars(), comentario,
                             currentProfile.getProfilePictureUri(100,100).toString()));
 
+                    Snackbar snackbar = Snackbar
+                            .make(form, "Cadastrado com sucesso!!", Snackbar.LENGTH_LONG);
 
+                    snackbar.show();
 
                     //EXEMPLO DE MARKER PERSONALIZADO
                     //MarkerOptions mo = newMarker(posicao, tmp.getTipo().toString(), "Data: " + d + "/" + (m+1) + "/" +a + "\r\nHora: " + hora +  ":" + min, BitmapDescriptorFactory.fromAsset(tmp.getTipo().toString().toLowerCase() + ".png"), ctx);
