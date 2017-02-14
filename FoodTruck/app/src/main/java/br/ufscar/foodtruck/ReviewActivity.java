@@ -65,7 +65,7 @@ public class ReviewActivity extends AppCompatActivity implements Serializable {
         reviewTxtName.setText(truckName.toString());
 
         fab.setOnClickListener(new NewReview(this,truckPos));
-
+        adapter.notifyDataSetChanged();
 
 
     }
@@ -119,6 +119,7 @@ public class ReviewActivity extends AppCompatActivity implements Serializable {
 
         reviewListview.setAdapter(adapter);
 
+        adapter.notifyDataSetChanged();
     }
 
     @Override
