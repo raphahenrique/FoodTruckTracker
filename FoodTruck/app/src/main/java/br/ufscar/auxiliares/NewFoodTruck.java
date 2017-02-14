@@ -18,7 +18,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import br.ufscar.foodtruck.FoodTruckMaps;
 import br.ufscar.foodtruck.FoodTruckTag;
 import br.ufscar.foodtruck.R;
 import br.ufscar.foodtruck.Truck;
@@ -127,7 +126,7 @@ public class NewFoodTruck implements GoogleMap.OnMapLongClickListener {
             {
                 if(!emptyName()){
                     String name = txtNome.getText().toString();
-                    Data.addTruck(new Truck(name,location,intPriceRange,tagsSelected, AccessToken.getCurrentAccessToken().toString()));
+                    Data.addTruck(new Truck(name,location,intPriceRange,tagsSelected,null, AccessToken.getCurrentAccessToken().toString()));
 
                     Data.markers.add(mMap.addMarker(new MarkerOptions().position(location).title(name)));
                     Data.markers.peekLast().setTag(Data.truckList.peekLast());

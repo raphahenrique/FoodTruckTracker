@@ -69,4 +69,6 @@ public class FoodTruckLocation {
     }
 
     public int getScore() { return score; }
+
+
 }

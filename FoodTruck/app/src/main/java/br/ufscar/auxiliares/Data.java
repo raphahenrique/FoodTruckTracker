@@ -3,7 +3,6 @@ package br.ufscar.auxiliares;
 import com.google.android.gms.maps.model.Marker;
 
 import java.util.LinkedList;
-import java.util.List;
 
 import br.ufscar.foodtruck.Truck;
 

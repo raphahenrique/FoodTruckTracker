@@ -2,7 +2,9 @@ package br.ufscar.foodtruck;
 
 import android.content.Context;
 
-public class FoodTruckTag {
+import java.io.Serializable;
+
+public class FoodTruckTag implements Serializable {
     private String name;
     private Context ctx;
 

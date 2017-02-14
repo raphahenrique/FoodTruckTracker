@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.3">
+
+        <ImageButton
+            android:layout_width="match_parent"
+            app:srcCompat="@drawable/com_facebook_profile_picture_blank_portrait"
+            android:id="@+id/listview_img_profile"
+            android:scaleType="fitXY"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_height="80dp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="0.6">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.3">
+
+            <TextView
+                android:text="John Seed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/listview_txtNome"
+                android:textSize="20sp"
+                android:textStyle="normal|bold" />
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:id="@+id/listview_ratingBar"
+                style="?android:attr/ratingBarStyleSmall"
+                android:numStars="5"
+                android:layout_height="20dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7">
+            <TextView
+                android:text="Muitos comentarios, a galera elogia mas também critica. Boa sorte guerreiro!"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/listview_txtComentario" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

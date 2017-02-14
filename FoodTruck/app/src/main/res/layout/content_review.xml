@@ -13,36 +13,54 @@
     tools:context="br.ufscar.foodtruck.ReviewActivity"
     tools:showIn="@layout/activity_review">
 
-    <SeekBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="135dp"
-        android:layout_marginStart="135dp"
-        android:layout_marginTop="176dp"
-        android:id="@+id/seekBar" />
+        android:weightSum="1">
 
-    <Switch
-        android:text="Switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/seekBar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="107dp"
-        android:layout_marginStart="107dp"
-        android:layout_marginTop="15dp"
-        android:id="@+id/switch1" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.4">
 
-    <CheckBox
-        android:text="CheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/switch1"
-        android:layout_alignRight="@+id/seekBar"
-        android:layout_alignEnd="@+id/seekBar"
-        android:layout_marginTop="18dp"
-        android:id="@+id/checkBox" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/review_img_food_truck"
+                android:alpha="0.4"/>
+
+            <TextView
+                android:text="Food Truck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="19dp"
+                android:id="@+id/review_name"
+                android:textSize="18sp" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.6">
+
+
+            <ListView
+                android:id="@+id/review_listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
 </RelativeLayout>
