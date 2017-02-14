@@ -1,8 +1,9 @@
 package br.ufscar.foodtruck;
 
+import java.io.Serializable;
 import java.util.Collection;
 
-public class MenuEntry {
+public class MenuEntry implements Serializable {
     private String name;
     private String description;
     private float price;

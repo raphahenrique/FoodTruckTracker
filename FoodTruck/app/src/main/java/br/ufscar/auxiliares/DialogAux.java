@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.net.Uri;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -22,9 +23,9 @@ import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
-import br.ufscar.foodtruck.FoodTruckMaps;
 import br.ufscar.foodtruck.FoodTruckTag;
 import br.ufscar.foodtruck.R;
+import br.ufscar.foodtruck.Review;
 import br.ufscar.foodtruck.ReviewActivity;
 import br.ufscar.foodtruck.Truck;
 
@@ -45,7 +46,7 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
     private TextView txtNomeFoodtruck;
     private TextView txtScore;
 
-    private Truck currentTruck;
+    //private Truck currentTruck;
 
     private CallbackManager callbackManager;
     private LoginButton loginButton;
@@ -86,13 +87,34 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
         final Truck curTruck = (Truck) marker.getTag();
         loadComponents(curTruck);
 
-        barAvaliacao.setOnClickListener(new View.OnClickListener() {
+        barAvaliacao.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onTouch(View view, MotionEvent motionEvent) {
 
+                Bundle bundle = new Bundle();
+
+                currentProfile = Profile.getCurrentProfile();
+                if (currentProfile != null) {
+                    bundle.putString("first_name",currentProfile.getFirstName());
+                    bundle.putString("last_name",currentProfile.getLastName());
+                    bundle.putString("picture",currentProfile.getProfilePictureUri(200,200).toString());
+                    Log.e("LOGADO", "Usuario logado=" + currentProfile.getFirstName() + " " + currentProfile.getLastName());
+                }
+
+                //bundle.putSerializable("currentTruck", curTruck);
+                int i=0;
+                for(Review elem : curTruck.getReviews()){
+                    bundle.putInt("rating_"+i,elem.getRating());
+                    bundle.putString("user_"+i,elem.getName());
+                    bundle.putString("comment_"+i,elem.getComment());
+                    i++;
+                }
+
+                bundle.putInt("cont",i);
                 Intent reviewIntent = new Intent(ctx.getApplicationContext(),ReviewActivity.class);
+                reviewIntent.putExtras(bundle);
                 ctx.startActivity(reviewIntent);
-
+                return false;
             }
         });
 

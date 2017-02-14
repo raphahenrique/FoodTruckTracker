@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import java.io.Serializable;
+
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class Splashscreen extends Activity {
+public class Splashscreen extends Activity implements Serializable {
 
     private final int SPLASH_DISPLAY_LENGHT = 3000;
 

@@ -37,6 +37,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -50,7 +51,7 @@ import br.ufscar.auxiliares.NewFoodTruck;
 
 
 public class FoodTruckMaps extends AppCompatActivity
-        implements OnMapReadyCallback {
+        implements OnMapReadyCallback, Serializable {
 
     private GoogleMap mMap;
     private String[] mTagsTitles;
@@ -266,19 +267,25 @@ public class FoodTruckMaps extends AppCompatActivity
         tagsSelected.add(new FoodTruckTag("Cerveja Artesanal"));
         tagsSelected.add(new FoodTruckTag("Mexicano"));
 
+        Collection<Review> reviewsSelected;
+        reviewsSelected = new ArrayList<Review>();
+        reviewsSelected.add(new Review("Marcio Oliveira",4,"Belo trabalho realizado, rápidos!",null));
+        reviewsSelected.add(new Review("Marcia Oliveira",2,"Carne horrível",null));
+        reviewsSelected.add(new Review("Jose Vieira",5,"Bom",null));
+
         //Truck mainTruck = new Truck("Epamiondas", new LatLng(-22.008166, -47.891448),1, tagsSelected);
-        Data.truckList.add(new Truck("Quase 2", new LatLng(-22.008474, -47.890708),1, tagsSelected));
-        Data.truckList.add(new Truck("Trem Bão", new LatLng(-22.005748, -47.896759),2, tagsSelected));
-        Data.truckList.add(new Truck("Rancho Marginal", new LatLng(-22.002654, -47.892167),2, tagsSelected));
-        Data.truckList.add(new Truck("Tomodaty", new LatLng(-22.000555, -47.893916),0, tagsSelected));
+        Data.truckList.add(new Truck("Quase 2", new LatLng(-22.008474, -47.890708),1, tagsSelected,reviewsSelected));
+        Data.truckList.add(new Truck("Trem Bão", new LatLng(-22.005748, -47.896759),2, tagsSelected,reviewsSelected));
+        Data.truckList.add(new Truck("Rancho Marginal", new LatLng(-22.002654, -47.892167),2, tagsSelected,null));
+        Data.truckList.add(new Truck("Tomodaty", new LatLng(-22.000555, -47.893916),0, tagsSelected,null));
 
         //
         //Data.truckList.get(0).setCoverPicture(Convert.downloadImage("http://peixeurbano.s3.amazonaws.com/2011/9/29/0d47c39e-4ca6-4375-8405-78219355834d/Big/000254871jp_v1_big_001.jpg"));
 
         //Data.truckList.get(0).setCoverPicture();
 
-        Data.truckList.get(0).addReview(new Review(5, "daora demais", null));
-        Data.truckList.get(0).addReview(new Review(4, "medio daora", null));
+        Data.truckList.get(0).addReview(new Review("Felipe",5, "daora demais", null));
+        Data.truckList.get(0).addReview(new Review("Joao Marcelo",4, "medio daora", null));
 
         Data.truckList.get(0).addMenuItem(new MenuEntry("X-Tudo", "tem tudo", 10, null, null));
         Data.truckList.get(0).addMenuItem(new MenuEntry("X-Salada", "tem salada", 8, null, null));

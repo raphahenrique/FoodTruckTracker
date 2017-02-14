@@ -1,7 +1,9 @@
 package br.ufscar.foodtruck;
 
 import android.graphics.Bitmap;
+
 import com.google.android.gms.maps.model.LatLng;
+
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,14 +24,16 @@ public class Truck {
     private List<MenuEntry> menu;
     private Collection<Review> reviews;
 
-    public Truck(String name, LatLng location, int priceRange, Collection<FoodTruckTag> tags){
+    //Construtor com reviews
+    public Truck(String name, LatLng location, int priceRange, Collection<FoodTruckTag> tags,
+                 Collection<Review> reviews){
         id = -1;
         this.name = name;
         this.locations = new LinkedList<>();
         locations.add(new FoodTruckLocation(location));
         this.priceRange = priceRange;
         this.tags = tags;
-        this.reviews = new LinkedList<>();
+        this.reviews = reviews;
         this.menu = new LinkedList<>();
     }
 
@@ -157,4 +161,5 @@ public class Truck {
     public void setByOwner(boolean byOwner) {
         this.byOwner = byOwner;
     }
+
 }
