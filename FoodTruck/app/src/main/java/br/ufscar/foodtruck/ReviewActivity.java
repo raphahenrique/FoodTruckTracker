@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -15,6 +14,8 @@ import com.facebook.Profile;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import br.ufscar.auxiliares.NewReview;
 
 public class ReviewActivity extends AppCompatActivity implements Serializable {
 
@@ -33,6 +34,7 @@ public class ReviewActivity extends AppCompatActivity implements Serializable {
     private String picture;
 
     private String truckName;
+    private int truckPos;
     private int cont;
 
     @Override
@@ -43,7 +45,6 @@ public class ReviewActivity extends AppCompatActivity implements Serializable {
         loadBundle();
 
         loadComponents();
-
 
         toolbar.setTitle("Avaliações");
 
@@ -62,13 +63,11 @@ public class ReviewActivity extends AppCompatActivity implements Serializable {
         reviewImgFoodTruck.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 
         reviewTxtName.setText(truckName.toString());
-        
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
+        fab.setOnClickListener(new NewReview(this,truckPos));
+
+
+
     }
 
     private void loadBundle() {
@@ -78,13 +77,13 @@ public class ReviewActivity extends AppCompatActivity implements Serializable {
         currentProfile = Profile.getCurrentProfile();
         if (currentProfile != null) {
             Log.e("LOGADO", "Usuario logado=" + currentProfile.getFirstName() + " " + currentProfile.getLastName());
-            Log.e("FIRST NAME: ", firstName);
         }
         firstName = bundle.getString("first_name");
         lastName = bundle.getString("last_name");
         picture = bundle.getString("picture");
         truckName = bundle.getString("truck_name");
         cont = bundle.getInt("cont");
+        truckPos = bundle.getInt("truckPos");
 
         dataReview = new ArrayList<Review>();
 

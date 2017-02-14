@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -91,24 +93,30 @@ public class CustomAdapter extends ArrayAdapter<Review> implements View.OnClickL
             viewHolder = (ViewHolder) convertView.getTag();
             result=convertView;
         }
-/*
-        Animation animation = AnimationUtils.loadAnimation(mContext, (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
+
+        Animation animation = AnimationUtils.loadAnimation(mContext, (position > lastPosition) ?
+                R.anim.up_from_bottom : R.anim.down_from_top);
         result.startAnimation(animation);
-        */
+
         lastPosition = position;
 
         viewHolder.txtName.setText(dataModel.getName());
         viewHolder.txtComentarios.setText(dataModel.getComment());
         viewHolder.listRating.setRating(dataModel.getRating());
+        if(dataModel.getPicture()!=null){
+            new DownloadImage(viewHolder.imgUser).execute(dataModel.getPicture());
+        }
 
+        //Profile profile = Profile.getCurrentProfile();
+        //if(profile!=null){
+          //  new DownloadImage(viewHolder.imgUser).execute();
+        //}
 
         //viewHolder.info.setOnClickListener(this);
         //viewHolder.info.setTag(position);
         // Return the completed view to render on screen
         return convertView;
     }
-
-
 
 
 }

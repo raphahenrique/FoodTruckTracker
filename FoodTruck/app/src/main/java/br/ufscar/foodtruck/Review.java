@@ -1,11 +1,8 @@
 package br.ufscar.foodtruck;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import br.ufscar.auxiliares.EasyDate;
 
-public class Review implements Parcelable {
+public class Review {
 
     private int rating;
     private String comment;
@@ -14,7 +11,7 @@ public class Review implements Parcelable {
     private String name;
 
 
-    Review(String name, int rating, String comment, String picture) {
+    public Review(String name, int rating, String comment, String picture) {
         this.name = name;
         this.rating = rating;
         this.comment = comment;
@@ -70,37 +67,6 @@ public class Review implements Parcelable {
         this.name = name;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel dest, int i) {
-
-        dest.writeInt(rating);
-        dest.writeString(comment);
-        dest.writeString(picture);
-        dest.writeString(name);
-    }
-
-    public Review(Parcel in) {
-        rating = in.readInt();
-        comment = in.readString();
-        picture = in.readString();
-        name = in.readString();
-
-
-    }
-
-    public static final Parcelable.Creator<Review> CREATOR = new Parcelable.Creator<Review>() {
-        public Review createFromParcel(Parcel in) {
-            return new Review(in);
-        }
-
-        public Review[] newArray(int size) {
-            return new Review[size];
-        }
-    };
 
 }

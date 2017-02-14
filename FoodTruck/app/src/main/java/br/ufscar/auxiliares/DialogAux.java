@@ -88,6 +88,7 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
         dialog.setTitle(marker.getTitle());
 
         final Truck curTruck = (Truck) marker.getTag();
+        final int truckPos = Data.truckList.indexOf(curTruck);
         loadComponents(curTruck);
 
         barAvaliacao.setOnTouchListener(new View.OnTouchListener() {
@@ -104,15 +105,20 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
                     Log.e("LOGADO", "Usuario logado=" + currentProfile.getFirstName() + " " + currentProfile.getLastName());
                 }
 
-                //bundle.putSerializable("currentTruck", curTruck);
-                int i=0;
-                for(Review elem : curTruck.getReviews()){
-                    bundle.putInt("rating_"+i,elem.getRating());
-                    bundle.putString("user_"+i,elem.getName());
-                    bundle.putString("comment_"+i,elem.getComment());
-                    i++;
-                }
 
+                //bundle.putSerializable("currentTruck", curTruck);
+                int i = 0;
+                if (curTruck.getReviews()!=null) {
+
+                    bundle.putInt("truckPos", truckPos);
+
+                    for (Review elem : curTruck.getReviews()) {
+                        bundle.putInt("rating_" + i, elem.getRating());
+                        bundle.putString("user_" + i, elem.getName());
+                        bundle.putString("comment_" + i, elem.getComment());
+                        i++;
+                    }
+                }
                 bundle.putInt("cont",i);
                 bundle.putString("truck_name",curTruck.getName());
                 Intent reviewIntent = new Intent(ctx.getApplicationContext(),ReviewActivity.class);
@@ -223,10 +229,13 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
             new DownloadImage(imgFoodTruck).execute("http://peixeurbano.s3.amazonaws.com/2011/9/29/0d47c39e-4ca6-4375-8405-78219355834d/Big/000254871jp_v1_big_001.jpg");
             imgFoodTruck.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 
-            if (AccessToken.getCurrentAccessToken().toString().equals(t.getRegistrarToken()))
-                buttonEditFoodtruck.setVisibility(View.VISIBLE);
-            else
-                buttonEditFoodtruck.setVisibility(View.GONE);
+            if(AccessToken.getCurrentAccessToken()!=null){
+                if (AccessToken.getCurrentAccessToken().toString().equals(t.getRegistrarToken()))
+                    buttonEditFoodtruck.setVisibility(View.VISIBLE);
+                else
+                    buttonEditFoodtruck.setVisibility(View.GONE);
+            }
+
 
             txtNomeFoodtruck.setText(t.getName());
         } else {
