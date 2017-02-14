@@ -20,6 +20,7 @@ public class FoodTruckLocation {
         this.endDate = endDate;
         this.opensAt = opensAt;
         this.closesAt = closesAt;
+        score = 0;
     }
 
     public FoodTruckLocation(LatLng location) {
@@ -29,11 +30,21 @@ public class FoodTruckLocation {
         endDate.increaseDate(7);
         opensAt = new EasyTime("00:00:00");
         closesAt = new EasyTime("23:59:59");
+        score = 0;
     }
 
     void updateEndDate() {
         endDate = new EasyDate();
         endDate.increaseDate(7);
+    }
+
+    public void upvote() {
+        score += 1;
+        updateEndDate();
+    }
+
+    public void downvote() {
+        score -= 1;
     }
 
     // Getters

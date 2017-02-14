@@ -35,21 +35,43 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp" />
 
-            <ImageButton
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                app:srcCompat="@android:drawable/ic_delete"
-                android:id="@+id/btn_negativo"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:layout_gravity="center_horizontal" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="95dp"
+                android:layout_height="match_parent">
 
-            <ImageButton
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                app:srcCompat="@android:drawable/ic_input_add"
-                android:id="@+id/btn_positivo"
-                android:layout_weight="1" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Veracidade: 0"
+                    android:layout_weight="1"
+                    android:id="@+id/txtScore" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        app:srcCompat="@drawable/thumbsdown"
+                        android:id="@+id/btn_negativo"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginRight="10dp" />
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        app:srcCompat="@drawable/thumbsup"
+                        android:id="@+id/btn_positivo"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+            </LinearLayout>
 
         </LinearLayout>
 

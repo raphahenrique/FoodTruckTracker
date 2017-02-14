@@ -215,7 +215,7 @@ public class FoodTruckMaps extends AppCompatActivity
             if (active) {
                 Data.markers.clear();
                 Data.markers.add(mMap.addMarker(new MarkerOptions()
-                        .position(truck.getCurrentLocation())
+                        .position(truck.getCurrentLocation().getLocation())
                         .title(truck.getName())));
                 Data.markers.peekLast().setTag(truck);
             }
@@ -291,7 +291,7 @@ public class FoodTruckMaps extends AppCompatActivity
 //                            .title(truck.getName())
 //                            .snippet(Integer.toString(truck.getId())));
             Data.markers.add(mMap.addMarker(new MarkerOptions()
-                                            .position(truck.getCurrentLocation())
+                                            .position(truck.getCurrentLocation().getLocation())
                                             .title(truck.getName())));
             Data.markers.peekLast().setTag(truck);
         }

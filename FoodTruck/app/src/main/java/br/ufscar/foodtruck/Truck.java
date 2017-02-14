@@ -45,10 +45,10 @@ public class Truck {
     }
 
 
-    public LatLng getCurrentLocation() {
+    public FoodTruckLocation getCurrentLocation() {
         for (FoodTruckLocation l : locations) {
             if (EasyDate.nowInRange(l.getStartDate(), l.getEndDate()) && EasyTime.nowInRange(l.getOpensAt(), l.getClosesAt()))
-                return l.getLocation();
+                return l;
         }
         return null;
     }

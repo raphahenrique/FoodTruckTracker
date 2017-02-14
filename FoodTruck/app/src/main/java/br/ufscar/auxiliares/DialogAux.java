@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -35,12 +37,13 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
 
     private ImageView imgFoodTruck;
     private RatingBar barAvaliacao;
-    private ImageButton btnPositivo;
-    private ImageButton btnNegativo;
+    private ImageView btnPositivo;
+    private ImageView btnNegativo;
     private Button btnOk;
     private TextView txtTags;
     private TextView txtPriceRange;
     private TextView txtNomeFoodtruck;
+    private TextView txtScore;
 
     private Truck currentTruck;
 
@@ -72,9 +75,6 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
 
 
     public void showDialog(final Context ctx, Marker marker){
-
-
-
         marker.hideInfoWindow();
 
         //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -83,7 +83,6 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
 
         dialog.setTitle(marker.getTitle());
 
-//        loadComponents(Data.getTruckById(Integer.parseInt(marker.getSnippet())));
         final Truck curTruck = (Truck) marker.getTag();
         loadComponents(curTruck);
 
@@ -134,10 +133,19 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
             }
         });
 
-        txtTags.setOnClickListener(new View.OnClickListener() {
+        btnPositivo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //abre uma lista das tags
+                curTruck.getCurrentLocation().upvote();
+                txtScore.setText("Veracidade: "+curTruck.getCurrentLocation().getScore());
+            }
+        });
+
+        btnNegativo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                curTruck.getCurrentLocation().downvote();
+                txtScore.setText("Veracidade: "+curTruck.getCurrentLocation().getScore());
             }
         });
 
@@ -149,13 +157,14 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
     public void loadComponents(Truck t){
         imgFoodTruck = (ImageView)dialog.findViewById(R.id.img_foodTruck);
         barAvaliacao = (RatingBar) dialog.findViewById(R.id.bar_avaliacao);
-        btnPositivo = (ImageButton) dialog.findViewById(R.id.btn_positivo);
-        btnNegativo = (ImageButton) dialog.findViewById(R.id.btn_negativo);
+        btnPositivo = (ImageView) dialog.findViewById(R.id.btn_positivo);
+        btnNegativo = (ImageView) dialog.findViewById(R.id.btn_negativo);
         buttonCardapio = (Button) dialog.findViewById(R.id.buttonCardapio);
         btnOk = (Button)dialog.findViewById(R.id.btn_ok_info);
         txtTags = (TextView)dialog.findViewById(R.id.txtTags);
         txtPriceRange = (TextView)dialog.findViewById(R.id.txtPriceRange);
         txtNomeFoodtruck = (TextView)dialog.findViewById(R.id.txtNomeFoodtruck);
+        txtScore = (TextView) dialog.findViewById(R.id.txtScore);
 
         if (t != null) {
             String tags = "";
@@ -169,9 +178,6 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
             txtPriceRange.setText(priceRange);
 
             barAvaliacao.setRating(t.mediaReviews());
-
-            //imgFoodTruck.setImageBitmap(t.getCoverPicture());
-            new DownloadImage(imgFoodTruck).execute("http://peixeurbano.s3.amazonaws.com/2011/9/29/0d47c39e-4ca6-4375-8405-78219355834d/Big/000254871jp_v1_big_001.jpg");
 
             new DownloadImage(imgFoodTruck).execute("http://peixeurbano.s3.amazonaws.com/2011/9/29/0d47c39e-4ca6-4375-8405-78219355834d/Big/000254871jp_v1_big_001.jpg");
             imgFoodTruck.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
