@@ -78,7 +78,7 @@ public class ReviewActivity extends AppCompatActivity implements Serializable {
         currentProfile = Profile.getCurrentProfile();
         if (currentProfile != null) {
             Log.e("LOGADO", "Usuario logado=" + currentProfile.getFirstName() + " " + currentProfile.getLastName());
-            Log.e("FIRST NAME: ", firstName);
+//            Log.e("FIRST NAME: ", firstName);
         }
         firstName = bundle.getString("first_name");
         lastName = bundle.getString("last_name");
