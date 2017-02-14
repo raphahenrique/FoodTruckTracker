@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -168,16 +169,28 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
         btnPositivo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                curTruck.getCurrentLocation().upvote();
-                txtScore.setText("Veracidade: "+curTruck.getCurrentLocation().getScore());
+                if (AccessToken.getCurrentAccessToken() != null) {
+                    curTruck.getCurrentLocation().upvote();
+                    txtScore.setText("Veracidade: " + curTruck.getCurrentLocation().getScore());
+                } else {
+                    Snackbar snackbar = Snackbar
+                            .make(view, "Você precisa estar conectado com o Facebook para isso", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
             }
         });
 
         btnNegativo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                curTruck.getCurrentLocation().downvote();
-                txtScore.setText("Veracidade: "+curTruck.getCurrentLocation().getScore());
+                if (AccessToken.getCurrentAccessToken() != null) {
+                    curTruck.getCurrentLocation().downvote();
+                    txtScore.setText("Veracidade: " + curTruck.getCurrentLocation().getScore());
+                } else {
+                    Snackbar snackbar = Snackbar
+                            .make(view, "Você precisa estar conectado com o Facebook para isso", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
             }
         });
 
@@ -226,7 +239,7 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
 
             barAvaliacao.setRating(t.mediaReviews());
 
-            new DownloadImage(imgFoodTruck).execute("http://peixeurbano.s3.amazonaws.com/2011/9/29/0d47c39e-4ca6-4375-8405-78219355834d/Big/000254871jp_v1_big_001.jpg");
+            new DownloadImage(imgFoodTruck).execute("http://www.ekplate.com/blog/wp-content/uploads/2015/11/food_truc.jpg");
             imgFoodTruck.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 
             if(AccessToken.getCurrentAccessToken()!=null){
@@ -234,8 +247,8 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
                     buttonEditFoodtruck.setVisibility(View.VISIBLE);
                 else
                     buttonEditFoodtruck.setVisibility(View.GONE);
-            }
-
+            } else
+                buttonEditFoodtruck.setVisibility(View.GONE);
 
             txtNomeFoodtruck.setText(t.getName());
         } else {
