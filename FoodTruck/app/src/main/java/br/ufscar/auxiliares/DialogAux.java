@@ -223,9 +223,12 @@ public class DialogAux implements GoogleMap.OnMarkerClickListener {
             new DownloadImage(imgFoodTruck).execute("http://peixeurbano.s3.amazonaws.com/2011/9/29/0d47c39e-4ca6-4375-8405-78219355834d/Big/000254871jp_v1_big_001.jpg");
             imgFoodTruck.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 
-            if (AccessToken.getCurrentAccessToken().toString().equals(t.getRegistrarToken()))
-                buttonEditFoodtruck.setVisibility(View.VISIBLE);
-            else
+            if (AccessToken.getCurrentAccessToken() != null) {
+                if (AccessToken.getCurrentAccessToken().toString().equals(t.getRegistrarToken()))
+                    buttonEditFoodtruck.setVisibility(View.VISIBLE);
+                else
+                    buttonEditFoodtruck.setVisibility(View.GONE);
+            } else
                 buttonEditFoodtruck.setVisibility(View.GONE);
 
             txtNomeFoodtruck.setText(t.getName());
